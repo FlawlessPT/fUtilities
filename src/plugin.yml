@@ -1,0 +1,15 @@
+name: FUtilities
+main: pt.flawless.FUtilities.Main
+description: Teste description 2
+version: 1.0
+commands:
+  tp:
+  heal:
+  clearchat:
+  fly:
+  gamemode:
+    aliases:
+      - gm
+  comandos:
+    aliases:
+      - cmds

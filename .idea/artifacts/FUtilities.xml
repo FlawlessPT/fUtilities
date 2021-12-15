@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="FUtilities">
+    <output-path>$PROJECT_DIR$/../../../../Testes MiniGames/plugins</output-path>
+    <root id="archive" name="FUtilities.jar">
+      <element id="module-output" name="FUtilities" />
+    </root>
+  </artifact>
+</component>
