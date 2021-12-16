@@ -30,10 +30,6 @@ public class VariablesManager
     public static String nameHeal = Main.plugin.getConfig().getString("Menus.Comandos.Itens.Heal.Name").replace("&", "§");
     public static String loreHeal = Main.plugin.getConfig().getString("Menus.Comandos.Itens.Heal.Lore").replace("&", "§");
 
-
-    public static String nameFiller = Main.plugin.getConfig().getString("Menus.Comandos.Itens.Filler.Name").replace("&", "§");
-
-
     //MESSAGES
 
     public static String flyOnMessage = Main.plugin.getConfig().getString("Mensagens.FlyOn").replace("&", "§");

@@ -1,17 +1,17 @@
 ##################################
 #                                #
-#     Variáveis: %chat_clear%    #
+#     Variáveis: %player%        #
 #                                #
 ##################################
 Permissoes:
   Comandos:
     Comandos: "comandos.use"
 Mensagens:
-  FlyOn: " &aFly ativado com sucesso!"
-  FlyOff: " &cFly desativado com sucesso!"
-  ChatCleared: " &aChat limpo por: &7%chat_clear%"
-  Heal: " &aFome e vida regeneradas com sucesso!"
-  SemPermissao: " &cNão tens permissão para executar este comando!"
+  FlyOn: "&eModo de voou &7Ativado&e!"
+  FlyOff: "&cModo de voou &7Desativado&c!"
+  ChatCleared: "&7%player% &alimpou o chat."
+  Heal: "&aFome e vida regeneradas com sucesso!"
+  SemPermissao: "&cNão tens permissão para executar este comando!"
 Menus:
   Comandos:
     Titulo: "&8Comandos:"
@@ -31,5 +31,3 @@ Menus:
       Heal:
         Name: "&2Heal:"
         Lore: "&7Clica para regenerar toda a tua vida e fome."
-      Filler:
-        Name: "&8"

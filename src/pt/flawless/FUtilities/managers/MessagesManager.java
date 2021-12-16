@@ -5,19 +5,13 @@ import org.bukkit.ChatColor;
 public class MessagesManager
 {
 
-    public static String semPermissão = "§cNão possuis a permissão requerida para usar este comando!";
+    public static String semPermissao = "§cNão possuis a permissão requerida para usar este comando!";
 
     public static String jogadorOff = "§cJogador offline!";
 
     public static String onlyPlayers = "§cEste comando só pode ser executado por jogadores!";
 
     public static String vazio = "§e";
-
-    //FLY
-
-    public static String flyOn = "§eModo de voou §7Ativado§e!";
-
-    public static String flyOff = "§cModo de voou §7Desativado§c!";
 
     //CHAT
 

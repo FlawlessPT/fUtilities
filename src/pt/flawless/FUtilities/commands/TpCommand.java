@@ -5,8 +5,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pt.flawless.FUtilities.api.Som;
 import pt.flawless.FUtilities.managers.MessagesManager;
+import pt.flawless.FUtilities.utils.SoundEffect;
 
 public class TpCommand implements CommandExecutor
 {
@@ -31,7 +31,7 @@ public class TpCommand implements CommandExecutor
                 if (args.length == 0)
                 {
 
-                    Som.fail(p);
+                    SoundEffect.fail(p);
                     p.sendMessage("§cArgumentos em falta: /tp [jogador]");
 
                     return false;
@@ -46,7 +46,7 @@ public class TpCommand implements CommandExecutor
 
                         p.teleport(target);
                         p.sendMessage("§eFoste teleportado até §7" + target.getName() + "§e.");
-                        Som.success(p);
+                        SoundEffect.success(p);
 
                         return false;
 
@@ -55,7 +55,7 @@ public class TpCommand implements CommandExecutor
                     {
 
                         p.sendMessage(MessagesManager.jogadorOff);
-                        Som.fail(p);
+                        SoundEffect.fail(p);
 
                         return false;
 
@@ -66,8 +66,8 @@ public class TpCommand implements CommandExecutor
             else
             {
 
-                p.sendMessage(MessagesManager.semPermissão);
-                Som.fail(p);
+                p.sendMessage(MessagesManager.semPermissao);
+                SoundEffect.fail(p);
 
                 return false;
             }

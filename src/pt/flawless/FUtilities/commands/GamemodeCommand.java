@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerGameModeChangeEvent;
-import pt.flawless.FUtilities.api.Som;
+import pt.flawless.FUtilities.utils.SoundEffect;
 import pt.flawless.FUtilities.managers.MessagesManager;
 
 public class GamemodeCommand implements CommandExecutor, Listener
@@ -24,7 +24,7 @@ public class GamemodeCommand implements CommandExecutor, Listener
         {
 
             p.sendMessage("§cArgumentos em falta: /gamemode [0/1/2/3] [jogador]");
-            Som.fail(p);
+            SoundEffect.fail(p);
 
             return false;
         }
@@ -36,7 +36,7 @@ public class GamemodeCommand implements CommandExecutor, Listener
 
                 p.setGameMode(GameMode.SURVIVAL);
                 p.sendMessage(MessagesManager.gm0);
-                Som.success(p);
+                SoundEffect.success(p);
 
                 return false;
             }
@@ -46,7 +46,7 @@ public class GamemodeCommand implements CommandExecutor, Listener
 
                 p.setGameMode(GameMode.CREATIVE);
                 p.sendMessage(MessagesManager.gm1);
-                Som.success(p);
+                SoundEffect.success(p);
 
                 return false;
             }
@@ -56,7 +56,7 @@ public class GamemodeCommand implements CommandExecutor, Listener
 
                 p.setGameMode(GameMode.ADVENTURE);
                 p.sendMessage(MessagesManager.gm2);
-                Som.success(p);
+                SoundEffect.success(p);
 
                 return false;
             }
@@ -66,7 +66,7 @@ public class GamemodeCommand implements CommandExecutor, Listener
 
                 p.setGameMode(GameMode.SPECTATOR);
                 p.sendMessage(MessagesManager.gm3);
-                Som.success(p);
+                SoundEffect.success(p);
 
                 return false;
             }
@@ -81,7 +81,7 @@ public class GamemodeCommand implements CommandExecutor, Listener
             {
 
                 p.sendMessage(MessagesManager.jogadorOff);
-                Som.fail(p);
+                SoundEffect.fail(p);
 
                 return false;
             }
@@ -91,7 +91,7 @@ public class GamemodeCommand implements CommandExecutor, Listener
 
                 target.setGameMode(GameMode.SURVIVAL);
                 p.sendMessage("§eAlteraste o modo de jogo de §7" + target.getName() + " §epara §7Sobrevivência§e!");
-                Som.success(p);
+                SoundEffect.success(p);
 
                 return false;
             }
@@ -101,7 +101,7 @@ public class GamemodeCommand implements CommandExecutor, Listener
 
                 target.setGameMode(GameMode.CREATIVE);
                 p.sendMessage("§eAlteraste o modo de jogo de §7" + target.getName() + " §epara §7Criativo§e!");
-                Som.success(p);
+                SoundEffect.success(p);
 
                 return false;
             }
@@ -110,7 +110,7 @@ public class GamemodeCommand implements CommandExecutor, Listener
 
                 target.setGameMode(GameMode.ADVENTURE);
                 p.sendMessage("§eAlteraste o modo de jogo de §7" + target.getName() + "§epara §7Aventura§e!");
-                Som.success(p);
+                SoundEffect.success(p);
 
                 return false;
             }
@@ -120,7 +120,7 @@ public class GamemodeCommand implements CommandExecutor, Listener
 
                 target.setGameMode(GameMode.SPECTATOR);
                 p.sendMessage("§eAlteraste o modo de jogo de §7" + target.getName() + " §epara §7Espectador§e!");
-                Som.success(p);
+                SoundEffect.success(p);
 
                 return false;
             }

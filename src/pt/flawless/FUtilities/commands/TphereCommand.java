@@ -58,7 +58,7 @@ public class TphereCommand implements CommandExecutor
             else
             {
 
-                p.sendMessage(MessagesManager.semPermissão);
+                p.sendMessage(MessagesManager.semPermissao);
                 p.playSound(p.getLocation(), Sound.ANVIL_BREAK, 1, 2f);
 
             }

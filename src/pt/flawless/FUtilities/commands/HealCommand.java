@@ -5,7 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pt.flawless.FUtilities.api.Som;
+import pt.flawless.FUtilities.utils.SoundEffect;
 import pt.flawless.FUtilities.managers.MessagesManager;
 
 public class HealCommand implements CommandExecutor
@@ -21,7 +21,7 @@ public class HealCommand implements CommandExecutor
             p.setHealth(20.0);
             p.setFoodLevel(20);
             p.sendMessage(MessagesManager.heal);
-            Som.success(p);
+            SoundEffect.success(p);
 
             return false;
         }
@@ -35,7 +35,7 @@ public class HealCommand implements CommandExecutor
             {
 
                 p.sendMessage(MessagesManager.jogadorOff);
-                Som.success(p);
+                SoundEffect.success(p);
 
                 return false;
 
@@ -46,7 +46,7 @@ public class HealCommand implements CommandExecutor
                 target.setHealth(20.0D);
                 target.setFoodLevel(20);
                 p.sendMessage("§eA §7fome §ee §7vida §ede §7" + target.getName() + " §eforam regeneradas!");
-                Som.success(p);
+                SoundEffect.success(p);
 
                 return false;
             }

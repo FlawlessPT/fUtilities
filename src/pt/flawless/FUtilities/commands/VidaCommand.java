@@ -6,7 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 import pt.flawless.FUtilities.managers.MessagesManager;
 
 public class VidaCommand implements CommandExecutor
@@ -50,7 +49,7 @@ public class VidaCommand implements CommandExecutor
             {
 
                 p.playSound(p.getLocation(), Sound.ANVIL_BREAK, 1.0F, 2.0F);
-                p.sendMessage(MessagesManager.semPermissão);
+                p.sendMessage(MessagesManager.semPermissao);
 
             }
         }
@@ -92,7 +91,7 @@ public class VidaCommand implements CommandExecutor
             {
 
                 p.playSound(p.getLocation(), Sound.ANVIL_BREAK, 1.0F, 2.0F);
-                p.sendMessage(MessagesManager.semPermissão);
+                p.sendMessage(MessagesManager.semPermissao);
 
             }
         }

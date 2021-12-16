@@ -5,10 +5,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pt.flawless.FUtilities.api.Som;
 import pt.flawless.FUtilities.managers.MessagesManager;
+import pt.flawless.FUtilities.managers.VariablesManager;
+import pt.flawless.FUtilities.utils.SoundEffect;
 
-public class FlyCommand implements CommandExecutor
+public class FlyCommand extends VariablesManager implements CommandExecutor
 {
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
@@ -22,16 +23,16 @@ public class FlyCommand implements CommandExecutor
             {
 
                 p.setAllowFlight(true);
-                p.sendMessage(MessagesManager.flyOn);
-                Som.success(p);
+                p.sendMessage(flyOnMessage);
+                SoundEffect.success(p);
 
             }
             else
             {
 
                 p.setAllowFlight(false);
-                p.sendMessage(MessagesManager.flyOff);
-                Som.success(p);
+                p.sendMessage(flyOffMessage);
+                SoundEffect.success(p);
 
             }
         }
@@ -45,7 +46,7 @@ public class FlyCommand implements CommandExecutor
             {
 
                 p.sendMessage(MessagesManager.jogadorOff);
-                Som.fail(p);
+                SoundEffect.fail(p);
 
             }
             else
@@ -55,7 +56,7 @@ public class FlyCommand implements CommandExecutor
 
                     target.setAllowFlight(true);
                     p.sendMessage("§eModo de voou §7ativado §epara §7" + target.getName() + "§e.");
-                    Som.success(p);
+                    SoundEffect.success(p);
 
                 }
                 else
@@ -63,7 +64,7 @@ public class FlyCommand implements CommandExecutor
 
                     target.setAllowFlight(false);
                     p.sendMessage("§cModo de voou §7desativado §cpara §7" + target.getName() + "§c.");
-                    Som.success(p);
+                    SoundEffect.success(p);
 
                 }
             }

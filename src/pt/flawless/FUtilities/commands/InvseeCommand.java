@@ -5,8 +5,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pt.flawless.FUtilities.api.Som;
 import pt.flawless.FUtilities.managers.MessagesManager;
+import pt.flawless.FUtilities.utils.SoundEffect;
 
 public class InvseeCommand implements CommandExecutor
 {
@@ -42,7 +42,7 @@ public class InvseeCommand implements CommandExecutor
                     {
 
                         p.sendMessage(MessagesManager.jogadorOff);
-                        Som.fail(p);
+                        SoundEffect.fail(p);
 
                         return false;
 
@@ -51,7 +51,7 @@ public class InvseeCommand implements CommandExecutor
                     {
 
                         p.openInventory(target.getInventory());
-                        Som.success(p);
+                        SoundEffect.success(p);
 
                     }
                 }
@@ -59,8 +59,8 @@ public class InvseeCommand implements CommandExecutor
             else
             {
 
-                p.sendMessage(MessagesManager.semPermissão);
-                Som.fail(p);
+                p.sendMessage(MessagesManager.semPermissao);
+                SoundEffect.fail(p);
 
                 return false;
             }

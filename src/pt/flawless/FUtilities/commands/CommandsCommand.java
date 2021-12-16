@@ -4,9 +4,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pt.flawless.FUtilities.api.Som;
-import pt.flawless.FUtilities.inventories.CommandsMenu;
+import pt.flawless.FUtilities.inventories.CommandsInventory;
 import pt.flawless.FUtilities.managers.VariablesManager;
+import pt.flawless.FUtilities.utils.SoundEffect;
 
 public class CommandsCommand extends VariablesManager implements CommandExecutor
 {
@@ -18,13 +18,13 @@ public class CommandsCommand extends VariablesManager implements CommandExecutor
             Player player = (Player) commandSender;
             if (player.hasPermission(comandoCommandPermission))
             {
-                CommandsMenu.load(player);
-                Som.success(player);
+                player.openInventory(CommandsInventory.commandsInventory(player));
+                SoundEffect.success(player);
             }
             else
             {
                 player.sendMessage(noPermissionMessage);
-                Som.fail(player);
+                SoundEffect.fail(player);
             }
         }
 

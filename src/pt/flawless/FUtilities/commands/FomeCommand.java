@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import pt.flawless.FUtilities.api.Som;
+import pt.flawless.FUtilities.utils.SoundEffect;
 import pt.flawless.FUtilities.managers.MessagesManager;
 
 public class FomeCommand implements CommandExecutor
@@ -32,7 +32,7 @@ public class FomeCommand implements CommandExecutor
             else
             {
 
-                Som.success(p);
+                SoundEffect.success(p);
                 p.sendMessage(MessagesManager.fomeFull);
 
             }
