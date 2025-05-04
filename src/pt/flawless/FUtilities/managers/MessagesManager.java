@@ -2,8 +2,7 @@ package pt.flawless.FUtilities.managers;
 
 import org.bukkit.ChatColor;
 
-public class MessagesManager
-{
+public class MessagesManager {
 
     public static String semPermissão = "§cNão possuis a permissão requerida para usar este comando!";
 

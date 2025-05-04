@@ -5,37 +5,41 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
 import pt.flawless.FUtilities.managers.MessagesManager;
 import pt.flawless.fapi.sounds.FSound;
 
-public class HealCommand implements CommandExecutor {
+public class FeedCommand implements CommandExecutor {
+
+    @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player p = (Player) sender;
 
         if (args.length == 0) {
-            p.setHealth(20.0);
-            p.setFoodLevel(20);
-            p.sendMessage(MessagesManager.heal);
-            FSound.success(p);
-
-            return false;
+            if (p.getFoodLevel() < 20) {
+                FSound.success(p);
+                p.setFoodLevel(20);
+                p.sendMessage(MessagesManager.fome);
+            } else {
+                FSound.success(p);
+                p.sendMessage(MessagesManager.fomeFull);
+            }
         }
 
         if (args.length == 1) {
             Player target = Bukkit.getPlayer(args[0]);
 
             if (target == null) {
-                p.sendMessage(MessagesManager.jogadorOff);
                 FSound.fail(p);
-            } else {
-                target.setHealth(20.0D);
-                target.setFoodLevel(20);
-                p.sendMessage("§eA §7fome §ee §7vida §ede §7" + target.getName() + " §eforam regeneradas!");
-                FSound.success(p);
-            }
+                p.sendMessage(MessagesManager.jogadorOff);
 
-            return false;
+                return false;
+            }
+            FSound.success(p);
+            target.setFoodLevel(20);
+            p.sendMessage("§eA fome de §7" + target.getName() + " §efoi saciada!");
         }
+
         return false;
     }
 }

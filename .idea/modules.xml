@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FUtilities.iml" filepath="$PROJECT_DIR$/FUtilities.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fUtilities.iml" filepath="$PROJECT_DIR$/fUtilities.iml" />
     </modules>
   </component>
 </project>

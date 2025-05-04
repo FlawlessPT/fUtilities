@@ -4,27 +4,22 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pt.flawless.FUtilities.api.Som;
 import pt.flawless.FUtilities.inventories.CommandsMenu;
 import pt.flawless.FUtilities.managers.VariablesManager;
+import pt.flawless.fapi.sounds.FSound;
 
-public class CommandsCommand extends VariablesManager implements CommandExecutor
-{
+public class CommandsCommand extends VariablesManager implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args)
-    {
-        if (commandSender instanceof Player)
-        {
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+        if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            if (player.hasPermission(comandoCommandPermission))
-            {
+
+            if (player.hasPermission(comandoCommandPermission)) {
                 CommandsMenu.load(player);
-                Som.success(player);
-            }
-            else
-            {
+                FSound.success(player);
+            } else {
                 player.sendMessage(noPermissionMessage);
-                Som.fail(player);
+                FSound.fail(player);
             }
         }
 

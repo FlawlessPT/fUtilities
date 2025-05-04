@@ -5,66 +5,43 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pt.flawless.FUtilities.api.Som;
 import pt.flawless.FUtilities.managers.MessagesManager;
+import pt.flawless.fapi.sounds.FSound;
 
-public class InvseeCommand implements CommandExecutor
-{
+public class InvseeCommand implements CommandExecutor {
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
-    {
-
-        if (!(sender instanceof Player))
-        {
-
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(MessagesManager.onlyPlayers);
-
-        }
-        else
-        {
-
+        } else {
             Player p = (Player) sender;
 
-            if (p.hasPermission("barberians.staff"))
-            {
-                if (args.length == 0)
-                {
-
+            if (p.hasPermission("barberians.staff")) {
+                if (args.length == 0) {
                     p.sendMessage("§cArgumentos em falta: /invsee [jogador]");
 
                     return false;
                 }
 
                 Player target = Bukkit.getPlayer(args[0]);
-                if (args.length == 1)
-                {
-                    if (target == null)
-                    {
-
+                if (args.length == 1) {
+                    if (target == null) {
                         p.sendMessage(MessagesManager.jogadorOff);
-                        Som.fail(p);
+                        FSound.fail(p);
 
                         return false;
 
-                    }
-                    else
-                    {
-
+                    } else {
                         p.openInventory(target.getInventory());
-                        Som.success(p);
-
+                        FSound.success(p);
                     }
                 }
-            }
-            else
-            {
-
+            } else {
                 p.sendMessage(MessagesManager.semPermissão);
-                Som.fail(p);
+                FSound.fail(p);
 
                 return false;
             }
-
         }
         return false;
     }

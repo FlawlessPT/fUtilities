@@ -8,26 +8,16 @@ import org.bukkit.entity.Player;
 
 import pt.flawless.FUtilities.managers.MessagesManager;
 
-public class ClearChatCommand implements CommandExecutor
-{
+public class ClearChatCommand implements CommandExecutor {
 
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args)
-    {
-        if (!(sender instanceof Player))
-        {
-
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(MessagesManager.onlyPlayers);
-
-        }
-        else
-        {
-
+        } else {
             Player p = (Player) sender;
 
-            for (Player pl : Bukkit.getOnlinePlayers())
-            {
-                for (int i = 0; i <= 200; i++)
-                {
+            for (Player pl : Bukkit.getOnlinePlayers()) {
+                for (int i = 0; i <= 200; i++) {
                     pl.sendMessage("");
                 }
                 pl.sendMessage("§eChat limpo por: §7" + sender.getName());

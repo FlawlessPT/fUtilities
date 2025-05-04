@@ -4,7 +4,11 @@ description: Teste description 2
 version: 1.0
 commands:
   tp:
+  tphere:
+  vida:
+  invsee:
   heal:
+  feed:
   clearchat:
   fly:
   gamemode:
