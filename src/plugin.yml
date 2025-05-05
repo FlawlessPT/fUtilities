@@ -27,3 +27,7 @@ commands:
     description: Open a menu to quickly call some commands
     aliases:
       - cmds
+  day:
+    description: Set day time to current world
+  night:
+    description: Set night time to current world

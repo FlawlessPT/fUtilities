@@ -23,6 +23,8 @@ public class Main extends JavaPlugin {
         getCommand("tphere").setExecutor(new TphereCommand());
         getCommand("vida").setExecutor(new VidaCommand());
         getCommand("invsee").setExecutor(new InvseeCommand());
+        getCommand("day").setExecutor(new DayNightCommand());
+        getCommand("night").setExecutor(new DayNightCommand());
     }
 
     private void registerEvents() {

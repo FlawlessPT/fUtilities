@@ -14,9 +14,9 @@ public class MessagesManager {
 
     //FLY
 
-    public static String flyOn = "§eModo de voou §7Ativado§e!";
+    public static String flyOn = "§eModo de voo §7Ativado§e!";
 
-    public static String flyOff = "§cModo de voou §7Desativado§c!";
+    public static String flyOff = "§cModo de voo §7Desativado§c!";
 
     //CHAT
 

@@ -19,6 +19,8 @@ public class CommandsMenu extends VariablesManager implements IBaseMenu
         FItemStack rain = new FItemStack(Material.WATER_BUCKET, 1).setDisplayName(nameRain).addLoreLine(loreRain);
         FItemStack clearChat = new FItemStack(Material.PAPER, 1).setDisplayName(nameChat).addLoreLine(loreChat);
         FItemStack heal = new FItemStack(Material.GOLDEN_CARROT, 1).setDisplayName(nameHeal).addLoreLine(loreHeal);
+        FItemStack day = new FItemStack(Material.TORCH, 1).setDisplayName("§2Dia").addLoreLine("§7Clica para colocar de dia.");
+        FItemStack night = new FItemStack(Material.COAL, 1).setDisplayName("§5Noite").addLoreLine("§7Clica para colocar de noite.");
 
         FItemStack filler = new FItemStack(Material.STAINED_GLASS_PANE, 1).setDisplayName(nameFiller).setDurability(DyeColor.BLACK.getData());
 
@@ -39,6 +41,10 @@ public class CommandsMenu extends VariablesManager implements IBaseMenu
         fInventory.setItem(21, filler);
         fInventory.setItem(13, heal);
         fInventory.setItem(22, filler);
+        fInventory.setItem(14, day);
+        fInventory.setItem(23, filler);
+        fInventory.setItem(15, night);
+        fInventory.setItem(24, filler);
 
         player.openInventory(fInventory.getInventory());
     }

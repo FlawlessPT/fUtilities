@@ -34,11 +34,11 @@ public class FlyCommand implements CommandExecutor {
             } else {
                 if (!target.getAllowFlight()) {
                     target.setAllowFlight(true);
-                    p.sendMessage("§eModo de voou §7ativado §epara §7" + target.getName() + "§e.");
+                    p.sendMessage("§eModo de voo §7ativado §epara §7" + target.getName() + "§e.");
                     FSound.success(p);
                 } else {
                     target.setAllowFlight(false);
-                    p.sendMessage("§cModo de voou §7desativado §cpara §7" + target.getName() + "§c.");
+                    p.sendMessage("§cModo de voo §7desativado §cpara §7" + target.getName() + "§c.");
                     FSound.success(p);
                 }
             }

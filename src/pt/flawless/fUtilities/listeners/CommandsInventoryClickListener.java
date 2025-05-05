@@ -2,6 +2,7 @@ package pt.flawless.fUtilities.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,25 +17,35 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
         if (e.getInventory().getTitle().equalsIgnoreCase(titulo)) {
             e.setCancelled(true);
 
-            if (e.getCurrentItem().getType().equals(Material.AIR)) {
+            Material clickedItem = e.getCurrentItem().getType();
+
+            if (clickedItem.equals(Material.AIR)) {
                 e.setCancelled(true);
                 return;
             }
 
-            if (e.getCurrentItem().getType().equals(Material.FEATHER)) {
+            if (clickedItem.equals(Material.FEATHER)) {
                 checkFly(e);
             }
 
-            if (e.getCurrentItem().getType().equals(Material.WATER_BUCKET)) {
+            if (clickedItem.equals(Material.WATER_BUCKET)) {
                 changeRain(e);
             }
 
-            if (e.getCurrentItem().getType().equals(Material.PAPER)) {
+            if (clickedItem.equals(Material.PAPER)) {
                 clearChat(e);
             }
 
-            if (e.getCurrentItem().getType().equals(Material.GOLDEN_CARROT)) {
+            if (clickedItem.equals(Material.GOLDEN_CARROT)) {
                 healPlayer(e);
+            }
+
+            if (clickedItem.equals(Material.TORCH)) {
+                setDayTime(e);
+            }
+            
+            if (clickedItem.equals(Material.COAL)) {
+                setNightTime(e);
             }
         }
     }
@@ -86,5 +97,23 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
         FSound.success(player);
 
         player.sendMessage(healMessage);
+    }
+
+    private void setDayTime(InventoryClickEvent e) {
+        World world = e.getWhoClicked().getWorld();
+
+        // TODO: Reuse same logic as command
+        world.setStorm(false);
+        world.setTime(1000);
+        world.setFullTime(1000);
+    }
+
+    private void setNightTime(InventoryClickEvent e) {
+        World world = e.getWhoClicked().getWorld();
+
+        // TODO: Reuse same logic as command
+        world.setStorm(false);
+        world.setTime(16000);
+        world.setFullTime(16000);
     }
 }
