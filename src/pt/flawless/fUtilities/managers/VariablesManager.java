@@ -1,6 +1,6 @@
-package pt.flawless.FUtilities.managers;
+package pt.flawless.fUtilities.managers;
 
-import pt.flawless.FUtilities.Main;
+import pt.flawless.fUtilities.Main;
 
 public class VariablesManager
 {

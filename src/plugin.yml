@@ -1,19 +1,29 @@
-name: FUtilities
-main: pt.flawless.FUtilities.Main
-description: Teste description 2
+name: fUtilities
+main: pt.flawless.fUtilities.Main
+description: Main server utilities
 version: 1.0
 commands:
   tp:
+    description: Teleport to a specific player
   tphere:
+    description: Teleport a player to you
   vida:
+    description: Regenerate player HP
   invsee:
+    description: Watch a player's inventory
   heal:
+    description: Regenerate player's hp and hungry
   feed:
+    description: Regenerate player's hungry
   clearchat:
+    description: Clear all players chat
   fly:
+    description: Change flight mode
   gamemode:
+    description: Change player's gamemode
     aliases:
       - gm
   comandos:
+    description: Open a menu to quickly call some commands
     aliases:
       - cmds

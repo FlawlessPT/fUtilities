@@ -1,13 +1,13 @@
-package pt.flawless.FUtilities;
+package pt.flawless.fUtilities;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import pt.flawless.FUtilities.commands.*;
-import pt.flawless.FUtilities.listeners.CommandsInventoryClickListener;
-import pt.flawless.FUtilities.listeners.FallDamageCancelListener;
-import pt.flawless.FUtilities.listeners.GameModeChangeListener;
+import pt.flawless.fUtilities.commands.*;
+import pt.flawless.fUtilities.listeners.CommandsInventoryClickListener;
+import pt.flawless.fUtilities.listeners.FallDamageCancelListener;
+import pt.flawless.fUtilities.listeners.GameModeChangeListener;
 
 public class Main extends JavaPlugin {
     public static Plugin plugin;
@@ -52,7 +52,7 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         ConsoleCommandSender b = Bukkit.getConsoleSender();
         b.sendMessage("§c");
-        b.sendMessage("§c[FUtilities] Plugin desativado com sucesso!");
+        b.sendMessage("§c[fUtilities] Plugin desativado com sucesso!");
         b.sendMessage("§c");
 
     }

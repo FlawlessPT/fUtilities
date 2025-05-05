@@ -1,4 +1,4 @@
-package pt.flawless.FUtilities.listeners;
+package pt.flawless.fUtilities.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -6,8 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import pt.flawless.FUtilities.inventories.CommandsMenu;
-import pt.flawless.FUtilities.managers.VariablesManager;
+import pt.flawless.fUtilities.menus.CommandsMenu;
+import pt.flawless.fUtilities.managers.VariablesManager;
 import pt.flawless.fapi.sounds.FSound;
 
 public class CommandsInventoryClickListener extends VariablesManager implements Listener {
@@ -51,7 +51,7 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
             player.setAllowFlight(false);
             player.sendMessage(flyOffMessage);
         }
-        CommandsMenu.load(player);
+        new CommandsMenu().loadMenu(player);
         FSound.success(player);
     }
 

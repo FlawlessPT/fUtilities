@@ -1,14 +1,14 @@
-package pt.flawless.FUtilities.commands;
+package pt.flawless.fUtilities.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pt.flawless.FUtilities.managers.MessagesManager;
+import pt.flawless.fUtilities.managers.MessagesManager;
 import pt.flawless.fapi.sounds.FSound;
 
-public class TpCommand implements CommandExecutor {
+public class TphereCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(MessagesManager.onlyPlayers);
@@ -17,35 +17,29 @@ public class TpCommand implements CommandExecutor {
 
             if (p.hasPermission("barberians.staff")) {
                 if (args.length == 0) {
+                    p.sendMessage("§cArgumentos em falta: /tphere [jogador]");
                     FSound.fail(p);
-                    p.sendMessage("§cArgumentos em falta: /tp [jogador]");
 
-                    return false;
+                    return true;
                 }
                 if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
 
                     if (target != null) {
-                        p.teleport(target);
-                        p.sendMessage("§eFoste teleportado até §7" + target.getName() + "§e.");
+                        target.teleport(p);
+                        p.sendMessage("§eTeleportaste o jogador §7" + target.getName() + " §eaté ti.");
                         FSound.success(p);
-
-                        return false;
                     } else {
                         p.sendMessage(MessagesManager.jogadorOff);
                         FSound.fail(p);
-
-                        return false;
                     }
                 }
-
             } else {
                 p.sendMessage(MessagesManager.semPermissão);
                 FSound.fail(p);
-
-                return false;
             }
         }
+
         return false;
     }
 }

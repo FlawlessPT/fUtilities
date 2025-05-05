@@ -1,4 +1,4 @@
-package pt.flawless.FUtilities.listeners;
+package pt.flawless.fUtilities.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

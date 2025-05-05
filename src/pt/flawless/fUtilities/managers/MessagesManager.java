@@ -1,4 +1,4 @@
-package pt.flawless.FUtilities.managers;
+package pt.flawless.fUtilities.managers;
 
 import org.bukkit.ChatColor;
 

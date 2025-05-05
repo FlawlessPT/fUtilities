@@ -1,4 +1,4 @@
-package pt.flawless.FUtilities.commands;
+package pt.flawless.fUtilities.commands;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import pt.flawless.FUtilities.managers.MessagesManager;
+import pt.flawless.fUtilities.managers.MessagesManager;
 
 public class ClearChatCommand implements CommandExecutor {
 
@@ -16,11 +16,15 @@ public class ClearChatCommand implements CommandExecutor {
         } else {
             Player p = (Player) sender;
 
-            for (Player pl : Bukkit.getOnlinePlayers()) {
-                for (int i = 0; i <= 200; i++) {
-                    pl.sendMessage("");
+            if (args.length == 0) {
+                for (Player pl : Bukkit.getOnlinePlayers()) {
+                    for (int i = 0; i <= 200; i++) {
+                        pl.sendMessage("");
+                    }
+                    pl.sendMessage("§eChat limpo por: §7" + sender.getName());
                 }
-                pl.sendMessage("§eChat limpo por: §7" + sender.getName());
+            } else {
+
             }
         }
         return false;
