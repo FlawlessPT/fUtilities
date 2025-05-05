@@ -13,7 +13,6 @@ public class CommandsMenu extends VariablesManager
     public static void load(Player p)
     {
         FInventory fInventory = new FInventory(FInventorySize.SIZE_36, titulo);
-        p.openInventory(fInventory.getInventory());
         FItemStack fly = new FItemStack(Material.FEATHER, 1).setDisplayName(nameFly).addLoreLine(loreFly);
         FItemStack flyState = new FItemStack(Material.STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOff);
         FItemStack rain = new FItemStack(Material.WATER_BUCKET, 1).setDisplayName(nameRain).addLoreLine(loreRain);
