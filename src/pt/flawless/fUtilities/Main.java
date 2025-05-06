@@ -1,16 +1,16 @@
 package pt.flawless.fUtilities;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import pt.flawless.fUtilities.commands.*;
 import pt.flawless.fUtilities.listeners.CommandsInventoryClickListener;
 import pt.flawless.fUtilities.listeners.GameModeChangeListener;
+import pt.flawless.fapi.logs.FConsoleLogger;
 
 public class Main extends JavaPlugin {
-    public static Plugin plugin;
+    private static Plugin plugin;
 
     private void registerCommands() {
         getCommand("gamemode").setExecutor(new GameModeCommand());
@@ -42,22 +42,23 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        plugin = this;
+
+        this.plugin = this;
+
         registerCommands();
         registerEvents();
-        ConsoleCommandSender b = Bukkit.getConsoleSender();
-        b.sendMessage("§e");
-        b.sendMessage("§e[fUtilities] Plugin ativado com sucesso!");
-        b.sendMessage("§e");
+
+        FConsoleLogger.sendEnablePlugin(plugin.getName());
     }
 
     @Override
     public void onDisable() {
         HandlerList.unregisterAll();
-        ConsoleCommandSender b = Bukkit.getConsoleSender();
-        b.sendMessage("§c");
-        b.sendMessage("§c[fUtilities] Plugin desativado com sucesso!");
-        b.sendMessage("§c");
 
+        FConsoleLogger.sendDisablePlugin(plugin.getName());
+    }
+
+    public static Plugin getMainPlugin() {
+        return plugin;
     }
 }

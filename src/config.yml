@@ -14,22 +14,22 @@ Mensagens:
   SemPermissao: " &cNão tens permissão para executar este comando!"
 Menus:
   Comandos:
-    Titulo: "&8Comandos:"
+    Titulo: "&8Comandos"
     Itens:
       Fly:
-        Name: "&aFly:"
+        Name: "&aFly"
         Lore: "&7Clica para alterar o estado do Fly."
       FlyState:
         Name_On: "&aAtivado."
         Name_Off: "&cDesativado."
       Rain:
-        Name: "&aChuva:"
+        Name: "&aChuva"
         Lore: "&7Clica para alterar o estado da chuva."
       Chat:
-        Name: "&fChat:"
+        Name: "&fChat"
         Lore: "&7Clica para limpar o chat."
       Heal:
-        Name: "&2Heal:"
+        Name: "&2Heal"
         Lore: "&7Clica para regenerar toda a tua vida e fome."
       Filler:
         Name: "&8"

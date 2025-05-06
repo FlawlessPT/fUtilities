@@ -1,14 +1,15 @@
 package pt.flawless.fUtilities.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import pt.flawless.fUtilities.menus.CommandsMenu;
 import pt.flawless.fUtilities.managers.VariablesManager;
+import pt.flawless.fUtilities.menus.CommandsMenu;
 import pt.flawless.fapi.sounds.FSound;
 
 public class CommandsInventoryClickListener extends VariablesManager implements Listener {
@@ -43,9 +44,24 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
             if (clickedItem.equals(Material.TORCH)) {
                 setDayTime(e);
             }
-            
+
             if (clickedItem.equals(Material.COAL)) {
                 setNightTime(e);
+            }
+
+            if (clickedItem.equals(Material.STONE_PICKAXE) || clickedItem.equals(Material.GRASS) || clickedItem.equals(Material.COMPASS) || clickedItem.equals(Material.ENDER_PEARL)) {
+//                switch (clickedItem) {
+//                    case STONE_PICKAXE ->
+//                            e.setCurrentItem(new FItemStack(Material.GRASS, 1).setDisplayName("§2Creative").createItem());
+//                    case GRASS ->
+//                            e.setCurrentItem(new FItemStack(Material.COMPASS, 1).setDisplayName("§8Adventure").createItem());
+//                    case COMPASS ->
+//                            e.setCurrentItem(new FItemStack(Material.ENDER_PEARL, 1).setDisplayName("§9Spectator").createItem());
+//                    case ENDER_PEARL ->
+//                            e.setCurrentItem(new FItemStack(Material.STONE_PICKAXE, 1).setDisplayName("§4Survival").createItem());
+//                }
+
+                setGameMode(e);
             }
         }
     }
@@ -55,20 +71,27 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
         Player player = (Player) e.getWhoClicked();
         Boolean flyState = player.getAllowFlight();
 
-        if (!flyState) {
-            player.setAllowFlight(true);
-            player.sendMessage(flyOnMessage);
-        } else {
+        if (flyState) {
             player.setAllowFlight(false);
             player.sendMessage(flyOffMessage);
+        } else {
+            player.setAllowFlight(true);
+            player.sendMessage(flyOnMessage);
         }
+
         new CommandsMenu().loadMenu(player);
         FSound.success(player);
     }
 
     private void changeRain(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
-        Bukkit.getServer().dispatchCommand(player, "toggledownfall");
+        Boolean prevRainState = player.getWorld().hasStorm();
+
+        player.getWorld().setStorm(!prevRainState);
+
+        new CommandsMenu().loadMenu(player);
+
+        player.sendMessage("§eChuva §7%rain_state%§e.".replace("%rain_state%", prevRainState ? "Desativada" : "Ativada"));
         FSound.success(player);
     }
 
@@ -84,8 +107,9 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
             pl.sendMessage(chatClearedMessage.replace("%chat_clear%", p.getName()));
             pl.sendMessage("");
 
-            FSound.success(p);
         }
+
+        FSound.success(p);
     }
 
     private void healPlayer(InventoryClickEvent e) {
@@ -94,26 +118,49 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
         player.setHealth(20.0);
         player.setFoodLevel(20);
 
-        FSound.success(player);
-
         player.sendMessage(healMessage);
+        FSound.success(player);
     }
 
     private void setDayTime(InventoryClickEvent e) {
         World world = e.getWhoClicked().getWorld();
+        Player player = (Player) e.getWhoClicked();
 
         // TODO: Reuse same logic as command
         world.setStorm(false);
         world.setTime(1000);
         world.setFullTime(1000);
+
+        player.sendMessage("§eTempo definido para §2Dia§e.");
+        FSound.success(player);
     }
 
     private void setNightTime(InventoryClickEvent e) {
         World world = e.getWhoClicked().getWorld();
+        Player player = (Player) e.getWhoClicked();
 
         // TODO: Reuse same logic as command
         world.setStorm(false);
         world.setTime(16000);
         world.setFullTime(16000);
+
+        player.sendMessage("§eTempo definido para §5Noite§e.");
+        FSound.success(player);
+    }
+
+    private void setGameMode(InventoryClickEvent e) {
+        Player player = (Player) e.getWhoClicked();
+
+        switch (player.getGameMode()) {
+            case SURVIVAL -> player.setGameMode(GameMode.CREATIVE);
+            case CREATIVE -> player.setGameMode(GameMode.ADVENTURE);
+            case ADVENTURE -> player.setGameMode(GameMode.SPECTATOR);
+            case SPECTATOR -> player.setGameMode(GameMode.SURVIVAL);
+        }
+
+        new CommandsMenu().loadMenu(player);
+
+        player.sendMessage("§eModo de jogo alterado para §5%gamemode%§e.".replace("%gamemode%", player.getGameMode().toString()));
+        FSound.success(player);
     }
 }
