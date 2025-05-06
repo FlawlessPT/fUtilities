@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import pt.flawless.fapi.sounds.FSound;
 import pt.flawless.fapi.title.FTitle;
 
 public class BroadcastCommand implements CommandExecutor {
@@ -14,6 +15,7 @@ public class BroadcastCommand implements CommandExecutor {
 
         if (args.length == 0) {
             p.sendMessage("§cArgumentos em falta: /broadcast [mensagem]");
+            FSound.fail(p);
 
             return false;
         }
