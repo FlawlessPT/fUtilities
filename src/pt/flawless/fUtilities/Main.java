@@ -7,7 +7,6 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import pt.flawless.fUtilities.commands.*;
 import pt.flawless.fUtilities.listeners.CommandsInventoryClickListener;
-import pt.flawless.fUtilities.listeners.FallDamageCancelListener;
 import pt.flawless.fUtilities.listeners.GameModeChangeListener;
 
 public class Main extends JavaPlugin {
@@ -31,7 +30,6 @@ public class Main extends JavaPlugin {
     }
 
     private void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(new FallDamageCancelListener(), this);
         Bukkit.getPluginManager().registerEvents(new CommandsInventoryClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new GameModeChangeListener(), this);
     }
