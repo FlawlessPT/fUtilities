@@ -2,6 +2,7 @@ package pt.flawless.fUtilities;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import pt.flawless.fUtilities.commands.*;
@@ -25,6 +26,8 @@ public class Main extends JavaPlugin {
         getCommand("invsee").setExecutor(new InvseeCommand());
         getCommand("day").setExecutor(new DayNightCommand());
         getCommand("night").setExecutor(new DayNightCommand());
+        getCommand("clear").setExecutor(new ClearCommand());
+        getCommand("broadcast").setExecutor(new BroadcastCommand());
     }
 
     private void registerEvents() {
@@ -52,6 +55,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        HandlerList.unregisterAll();
         ConsoleCommandSender b = Bukkit.getConsoleSender();
         b.sendMessage("§c");
         b.sendMessage("§c[fUtilities] Plugin desativado com sucesso!");

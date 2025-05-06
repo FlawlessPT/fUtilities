@@ -31,3 +31,7 @@ commands:
     description: Set day time to current world
   night:
     description: Set night time to current world
+  clear:
+    description: Clear own or other player's inventory
+  broadcast:
+    description: Broadcast a message to all players
