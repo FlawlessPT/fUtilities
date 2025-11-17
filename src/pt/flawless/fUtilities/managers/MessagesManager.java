@@ -28,13 +28,8 @@ public class MessagesManager {
 
     //GAMEMODE
 
-    public static String gm0 = "§eO teu modo de jogo foi alterado para §7Sobrevivência§e!";
-
-    public static String gm1 = "§eO teu modo de jogo foi alterado para §7Criativo§e!";
-
-    public static String gm2 = "§eO teu modo de jogo foi alterado para §7Aventura§e!";
-
-    public static String gm3 = "§eO teu modo de jogo foi alterado para §7Espectador§e!";
+    public static String gamemode_change = "§eModo de jogo alterado para §7%gamemode%§e!";
+    public static String gamemode_change_others = "§eModo de jogo de &7%player% &ealterado para §7%gamemode%§e!";
 
     //REGEN
 

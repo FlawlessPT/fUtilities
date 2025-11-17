@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import pt.flawless.fUtilities.helpers.GameModeHelper;
+import pt.flawless.fUtilities.managers.MessagesManager;
 import pt.flawless.fUtilities.managers.VariablesManager;
 import pt.flawless.fUtilities.menus.CommandsMenu;
 import pt.flawless.fapi.sounds.FSound;
@@ -69,7 +71,7 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
 
     private void checkFly(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
-        Boolean flyState = player.getAllowFlight();
+        boolean flyState = player.getAllowFlight();
 
         if (flyState) {
             player.setAllowFlight(false);
@@ -85,7 +87,7 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
 
     private void changeRain(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
-        Boolean prevRainState = player.getWorld().hasStorm();
+        boolean prevRainState = player.getWorld().hasStorm();
 
         player.getWorld().setStorm(!prevRainState);
 
@@ -160,7 +162,7 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
 
         new CommandsMenu().loadMenu(player);
 
-        player.sendMessage("§eModo de jogo alterado para §5%gamemode%§e.".replace("%gamemode%", player.getGameMode().toString()));
+        player.sendMessage(MessagesManager.gamemode_change.replace("%gamemode%", GameModeHelper.getGameModeLabel(player.getGameMode())));
         FSound.success(player);
     }
 }
