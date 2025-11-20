@@ -9,8 +9,9 @@ import pt.flawless.fUtilities.listeners.CommandsInventoryClickListener;
 import pt.flawless.fUtilities.listeners.GameModeChangeListener;
 import pt.flawless.fapi.logs.FConsoleLogger;
 
-public class Main extends JavaPlugin {
+public class FUtilities extends JavaPlugin {
     private static Plugin plugin;
+    FConsoleLogger consoleLogger = new FConsoleLogger(this.getName());
 
     private void registerCommands() {
         getCommand("gamemode").setExecutor(new GameModeCommand());
@@ -43,19 +44,19 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
 
-        this.plugin = this;
+        plugin = this;
 
         registerCommands();
         registerEvents();
 
-        FConsoleLogger.sendEnablePlugin(plugin.getName());
+        consoleLogger.sendEnablePluginMessage();
     }
 
     @Override
     public void onDisable() {
         HandlerList.unregisterAll();
 
-        FConsoleLogger.sendDisablePlugin(plugin.getName());
+        consoleLogger.sendDisablePluginMessage();
     }
 
     public static Plugin getMainPlugin() {

@@ -1,7 +1,8 @@
 name: fUtilities
-main: pt.flawless.fUtilities.Main
-description: Main server utilities
+main: pt.flawless.fUtilities.FUtilities
+description: FUtilities server utilities
 version: 1.0
+depend: [fAPI]
 commands:
   tp:
     description: Teleport to a specific player
