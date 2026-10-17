@@ -11,7 +11,6 @@ Mensagens:
   FlyOff: "&cFly desativado com sucesso!"
   ChatCleared: "&aChat limpo por: &7%chat_clear%"
   Heal: "&aFome e vida regeneradas com sucesso!"
-  SemPermissao: "&cNão tens permissão para executar este comando!"
 Menus:
   Comandos:
     Titulo: "&8Comandos"

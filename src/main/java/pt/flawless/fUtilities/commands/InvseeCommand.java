@@ -1,5 +1,6 @@
 package pt.flawless.fUtilities.commands;
 
+import pt.flawless.fapi.messages.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -37,7 +38,7 @@ public class InvseeCommand implements CommandExecutor {
                     }
                 }
             } else {
-                p.sendMessage(MessagesManager.semPermissão);
+                Messages.noPermission(p);
                 FSound.fail(p);
 
                 return false;

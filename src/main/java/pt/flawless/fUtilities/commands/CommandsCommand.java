@@ -1,5 +1,6 @@
 package pt.flawless.fUtilities.commands;
 
+import pt.flawless.fapi.messages.Messages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,7 +19,7 @@ public class CommandsCommand extends VariablesManager implements CommandExecutor
                 new CommandsMenu().loadMenu(player);
                 FSound.success(player);
             } else {
-                player.sendMessage(noPermissionMessage);
+                Messages.noPermission(player);
                 FSound.fail(player);
             }
         }

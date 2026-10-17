@@ -4,8 +4,6 @@ import org.bukkit.ChatColor;
 
 public class MessagesManager {
 
-    public static String semPermissão = "§cNão possuis a permissão requerida para usar este comando!";
-
     public static String jogadorOff = "§cJogador offline!";
 
     public static String onlyPlayers = "§cEste comando só pode ser executado por jogadores!";

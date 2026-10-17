@@ -7,7 +7,6 @@ public class VariablesManager
     //GENERAL
 
     public static String comandoCommandPermission = FUtilities.getMainPlugin().getConfig().getString("Permissoes.Comandos.Comandos");
-    public static String noPermissionMessage = FUtilities.getMainPlugin().getConfig().getString("Mensagens.SemPermissao").replace("&", "§");
 
     //MENUS
 
