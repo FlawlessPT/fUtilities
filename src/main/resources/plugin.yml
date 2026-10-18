@@ -3,6 +3,7 @@ main: pt.flawless.fUtilities.FUtilities
 description: FUtilities server utilities
 version: 1.0
 depend: [fAPI]
+softdepend: [fChat]
 commands:
   tp:
     description: Teleport to a specific player
@@ -36,3 +37,6 @@ commands:
     description: Clear own or other player's inventory
   broadcast:
     description: Broadcast a message to all players
+  prefs:
+    description: Abre o menu de preferências
+    usage: /prefs

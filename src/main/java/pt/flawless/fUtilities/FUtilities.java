@@ -7,11 +7,17 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pt.flawless.fUtilities.commands.*;
 import pt.flawless.fUtilities.listeners.CommandsInventoryClickListener;
 import pt.flawless.fUtilities.listeners.GameModeChangeListener;
+import pt.flawless.fUtilities.listeners.PrefsInventoryListener;
+import pt.flawless.fapi.chat.ChatApi;
+import pt.flawless.fapi.chat.Chats;
+import pt.flawless.fapi.enums.EMessageTypeEnum;
 import pt.flawless.fapi.logs.FConsoleLogger;
 
 public class FUtilities extends JavaPlugin {
     private static Plugin plugin;
     FConsoleLogger consoleLogger = new FConsoleLogger(this.getName());
+
+    private ChatApi chat;
 
     private void registerCommands() {
         getCommand("gamemode").setExecutor(new GameModeCommand());
@@ -28,11 +34,13 @@ public class FUtilities extends JavaPlugin {
         getCommand("night").setExecutor(new DayNightCommand());
         getCommand("clear").setExecutor(new ClearCommand());
         getCommand("broadcast").setExecutor(new BroadcastCommand());
+        getCommand("prefs").setExecutor(new PrefsCommand(chat));
     }
 
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(new CommandsInventoryClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new GameModeChangeListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PrefsInventoryListener(this), this);
     }
 
     @Override
@@ -45,6 +53,12 @@ public class FUtilities extends JavaPlugin {
         saveDefaultConfig();
 
         plugin = this;
+
+        try {
+            chat = Chats.get();
+        } catch (RuntimeException e) {
+            consoleLogger.sendMessage("/prefs indisponível: " + e.getMessage(), EMessageTypeEnum.ERROR);
+        }
 
         registerCommands();
         registerEvents();
