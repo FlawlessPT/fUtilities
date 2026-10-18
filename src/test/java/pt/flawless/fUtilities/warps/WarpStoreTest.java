@@ -74,6 +74,39 @@ class WarpStoreTest {
     }
 
     @Test
+    void malformedYamlIsNeverOverwritten() throws Exception {
+        File f = new File(dir, "warps.yml");
+        String bad = "spawn:\n  mundo: [unclosed\n\t- x: : :\n";
+        Files.writeString(f.toPath(), bad);
+        WarpStore s = new WarpStore(f);
+        assertThrows(RuntimeException.class, () -> s.save(warp("a")));
+        assertThrows(RuntimeException.class, () -> s.delete("spawn"));
+        assertEquals(bad, Files.readString(f.toPath()));
+    }
+
+    @Test
+    void invalidIconDataOrMaterialFallsBack() throws Exception {
+        File f = new File(dir, "warps.yml");
+        Files.writeString(f.toPath(), "a:\n  mundo: w\n  icone: WOOL:x\nb:\n  mundo: w\n  icone: NOPE:3\n");
+        WarpStore s = new WarpStore(f);
+        assertEquals("WOOL", s.get("a").orElseThrow().material());
+        assertEquals(0, s.get("a").orElseThrow().data());
+        assertEquals("ENDER_PEARL", s.get("b").orElseThrow().material());
+    }
+
+    @Test
+    void handWrittenMixedCaseKeyIsReachableAndReplaced() throws Exception {
+        File f = new File(dir, "warps.yml");
+        Files.writeString(f.toPath(), "Spawn:\n  mundo: w\n");
+        WarpStore s = new WarpStore(f);
+        assertEquals("spawn", s.get("spawn").orElseThrow().name());
+        s.save(warp("spawn"));
+        assertEquals(1, s.all().size());
+        assertTrue(s.delete("SPAWN"));
+        assertTrue(s.all().isEmpty());
+    }
+
+    @Test
     void normalizeLowercasesAndTrims() {
         assertEquals("spawn", WarpStore.normalize("  SpAwN "));
         store().save(warp("Spawn"));

@@ -1,6 +1,8 @@
 package pt.flawless.fUtilities.warps;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -28,7 +30,7 @@ public class WarpStore {
         List<Warp> warps = new ArrayList<>();
         for (String key : yaml.getKeys(false)) {
             ConfigurationSection s = yaml.getConfigurationSection(key);
-            if (s != null) warps.add(read(key, s));
+            if (s != null) warps.add(read(normalize(key), s));
         }
         warps.sort(Comparator.comparing(Warp::name));
         return warps;
@@ -40,9 +42,9 @@ public class WarpStore {
     }
 
     public void save(Warp warp) {
-        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        YamlConfiguration yaml = loadStrict();
         String key = normalize(warp.name());
-        yaml.set(key, null);
+        removeKey(yaml, key);
         ConfigurationSection s = yaml.createSection(key);
         s.set("mundo", warp.world());
         s.set("x", warp.x());
@@ -57,19 +59,51 @@ public class WarpStore {
     }
 
     public boolean delete(String name) {
-        YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        YamlConfiguration yaml = loadStrict();
         String key = normalize(name);
-        if (!yaml.contains(key)) return false;
-        yaml.set(key, null);
+        if (!removeKey(yaml, key)) return false;
         write(yaml);
         return true;
     }
 
+    // Escritas não usam loadConfiguration: YAML inválido viraria config vazia e o save apagava todos os warps.
+    private YamlConfiguration loadStrict() {
+        YamlConfiguration yaml = new YamlConfiguration();
+        if (!file.exists()) return yaml;
+        try {
+            yaml.load(file);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        } catch (InvalidConfigurationException e) {
+            throw new IllegalStateException("warps.yml inválido: " + e.getMessage(), e);
+        }
+        return yaml;
+    }
+
+    private boolean removeKey(YamlConfiguration yaml, String key) {
+        boolean found = false;
+        for (String k : new ArrayList<>(yaml.getKeys(false))) {
+            if (normalize(k).equals(key)) {
+                yaml.set(k, null);
+                found = true;
+            }
+        }
+        return found;
+    }
+
     private Warp read(String key, ConfigurationSection s) {
         String[] icon = s.getString("icone", "ENDER_PEARL").split(":");
-        short data = icon.length > 1 ? Short.parseShort(icon[1].trim()) : 0;
+        short data = 0;
+        if (icon.length > 1) {
+            try {
+                data = Short.parseShort(icon[1].trim());
+            } catch (NumberFormatException ignored) {
+            }
+        }
+        String material = Material.getMaterial(icon[0].trim().toUpperCase()) != null
+                ? icon[0].trim().toUpperCase() : "ENDER_PEARL";
         return new Warp(key, s.getString("mundo"), s.getDouble("x"), s.getDouble("y"), s.getDouble("z"),
-                (float) s.getDouble("yaw"), (float) s.getDouble("pitch"), icon[0].trim(), data,
+                (float) s.getDouble("yaw"), (float) s.getDouble("pitch"), material, data,
                 s.getBoolean("ativo", true), s.getString("grupo"));
     }
 
