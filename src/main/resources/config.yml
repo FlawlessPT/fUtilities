@@ -6,6 +6,8 @@
 Permissoes:
   Comandos:
     Comandos: "comandos.use"
+Warp:
+  Delay: 3
 Mensagens:
   FlyOn: "&aFly ativado com sucesso!"
   FlyOff: "&cFly desativado com sucesso!"

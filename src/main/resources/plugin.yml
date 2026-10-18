@@ -3,7 +3,7 @@ main: pt.flawless.fUtilities.FUtilities
 description: FUtilities server utilities
 version: 1.0
 depend: [fAPI]
-softdepend: [fChat]
+softdepend: [fChat, fPermissions]
 commands:
   tp:
     description: Teleport to a specific player
@@ -40,3 +40,20 @@ commands:
   prefs:
     description: Abre o menu de preferências
     usage: /prefs
+  warp:
+    description: Teleporta para um warp
+    usage: /warp <lugar>
+    aliases:
+      - warps
+      - ir
+  setwarp:
+    description: Define um warp na tua posição
+    usage: /setwarp <lugar> [grupo]
+  delwarp:
+    description: Apaga um warp
+    usage: /delwarp <lugar>
+permissions:
+  futilities.warp.admin:
+    description: Criar e apagar warps
+  futilities.warp.bypass:
+    description: Teleporte de warps sem espera

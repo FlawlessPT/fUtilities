@@ -12,12 +12,19 @@ import pt.flawless.fapi.chat.ChatApi;
 import pt.flawless.fapi.chat.Chats;
 import pt.flawless.fapi.enums.EMessageTypeEnum;
 import pt.flawless.fapi.logs.FConsoleLogger;
+import pt.flawless.fapi.permissions.Permissions;
+import pt.flawless.fapi.permissions.PermissionsApi;
+import pt.flawless.fUtilities.warps.WarpStore;
+import pt.flawless.fUtilities.warps.WarpTeleporter;
+
+import java.io.File;
 
 public class FUtilities extends JavaPlugin {
     private static Plugin plugin;
     FConsoleLogger consoleLogger = new FConsoleLogger(this.getName());
 
     private ChatApi chat;
+    private PermissionsApi perms;
 
     private void registerCommands() {
         getCommand("gamemode").setExecutor(new GameModeCommand());
@@ -35,6 +42,12 @@ public class FUtilities extends JavaPlugin {
         getCommand("clear").setExecutor(new ClearCommand());
         getCommand("broadcast").setExecutor(new BroadcastCommand());
         getCommand("prefs").setExecutor(new PrefsCommand(chat));
+
+        WarpStore warps = new WarpStore(new File(getDataFolder(), "warps.yml"));
+        WarpTeleporter teleporter = new WarpTeleporter(this, warps, perms);
+        getCommand("warp").setExecutor(new WarpCommand(teleporter));
+        getCommand("setwarp").setExecutor(new SetWarpCommand(warps));
+        getCommand("delwarp").setExecutor(new DelWarpCommand(warps));
     }
 
     private void registerEvents() {
@@ -58,6 +71,12 @@ public class FUtilities extends JavaPlugin {
             chat = Chats.get();
         } catch (RuntimeException e) {
             consoleLogger.sendMessage("/prefs indisponível: " + e.getMessage(), EMessageTypeEnum.ERROR);
+        }
+
+        try {
+            perms = Permissions.get();
+        } catch (RuntimeException e) {
+            consoleLogger.sendMessage("Warps com grupo indisponíveis: " + e.getMessage(), EMessageTypeEnum.ERROR);
         }
 
         registerCommands();
