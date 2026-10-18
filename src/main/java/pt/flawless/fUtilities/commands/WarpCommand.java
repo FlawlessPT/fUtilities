@@ -4,13 +4,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import pt.flawless.fUtilities.menus.WarpMenu;
+import pt.flawless.fUtilities.warps.WarpStore;
 import pt.flawless.fUtilities.warps.WarpTeleporter;
 
-/** {@code /warp <lugar>}. O menu (sem argumentos) vem na Task 4. */
+/** {@code /warp <lugar>}. Sem argumentos abre o menu. */
 public class WarpCommand implements CommandExecutor {
     private final WarpTeleporter teleporter;
+    private final WarpStore store;
 
-    public WarpCommand(WarpTeleporter teleporter) {
+    public WarpCommand(WarpTeleporter teleporter, WarpStore store) {
+        this.store = store;
         this.teleporter = teleporter;
     }
 
@@ -21,7 +25,7 @@ public class WarpCommand implements CommandExecutor {
             return true;
         }
         if (args.length == 0) {
-            player.sendMessage("§cUso: /warp <lugar>");
+            new WarpMenu(store, player).open();
             return true;
         }
         teleporter.teleport(player, args[0]);

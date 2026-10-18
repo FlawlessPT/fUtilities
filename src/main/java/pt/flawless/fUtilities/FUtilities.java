@@ -8,6 +8,7 @@ import pt.flawless.fUtilities.commands.*;
 import pt.flawless.fUtilities.listeners.CommandsInventoryClickListener;
 import pt.flawless.fUtilities.listeners.GameModeChangeListener;
 import pt.flawless.fUtilities.listeners.PrefsInventoryListener;
+import pt.flawless.fUtilities.listeners.WarpMenuListener;
 import pt.flawless.fapi.chat.ChatApi;
 import pt.flawless.fapi.chat.Chats;
 import pt.flawless.fapi.enums.EMessageTypeEnum;
@@ -25,6 +26,7 @@ public class FUtilities extends JavaPlugin {
 
     private ChatApi chat;
     private PermissionsApi perms;
+    private WarpTeleporter teleporter;
 
     private void registerCommands() {
         getCommand("gamemode").setExecutor(new GameModeCommand());
@@ -44,8 +46,8 @@ public class FUtilities extends JavaPlugin {
         getCommand("prefs").setExecutor(new PrefsCommand(chat));
 
         WarpStore warps = new WarpStore(new File(getDataFolder(), "warps.yml"));
-        WarpTeleporter teleporter = new WarpTeleporter(this, warps, perms);
-        getCommand("warp").setExecutor(new WarpCommand(teleporter));
+        teleporter = new WarpTeleporter(this, warps, perms);
+        getCommand("warp").setExecutor(new WarpCommand(teleporter, warps));
         getCommand("setwarp").setExecutor(new SetWarpCommand(warps));
         getCommand("delwarp").setExecutor(new DelWarpCommand(warps));
     }
@@ -54,6 +56,7 @@ public class FUtilities extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new CommandsInventoryClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new GameModeChangeListener(), this);
         Bukkit.getPluginManager().registerEvents(new PrefsInventoryListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new WarpMenuListener(teleporter), this);
     }
 
     @Override
