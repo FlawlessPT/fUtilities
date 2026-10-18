@@ -21,29 +21,26 @@ public class WarpStore {
         this.file = file;
     }
 
-    public static String normalize(String name) {
-        return name.trim().toLowerCase();
-    }
 
     public List<Warp> all() {
         YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
         List<Warp> warps = new ArrayList<>();
         for (String key : yaml.getKeys(false)) {
             ConfigurationSection s = yaml.getConfigurationSection(key);
-            if (s != null) warps.add(read(normalize(key), s));
+            if (s != null) warps.add(read(key, s));
         }
-        warps.sort(Comparator.comparing(Warp::name));
+        warps.sort(Comparator.comparing(Warp::name, String.CASE_INSENSITIVE_ORDER));
         return warps;
     }
 
     public Optional<Warp> get(String name) {
-        String key = normalize(name);
-        return all().stream().filter(w -> w.name().equals(key)).findFirst();
+        String key = name.trim();
+        return all().stream().filter(w -> w.name().equalsIgnoreCase(key)).findFirst();
     }
 
     public void save(Warp warp) {
         YamlConfiguration yaml = loadStrict();
-        String key = normalize(warp.name());
+        String key = warp.name();
         removeKey(yaml, key);
         ConfigurationSection s = yaml.createSection(key);
         s.set("mundo", warp.world());
@@ -55,12 +52,13 @@ public class WarpStore {
         s.set("icone", warp.data() == 0 ? warp.material() : warp.material() + ":" + warp.data());
         s.set("ativo", warp.active());
         s.set("grupo", warp.group());
+        s.set("descricao", warp.description().isEmpty() ? null : warp.description());
         write(yaml);
     }
 
     public boolean delete(String name) {
         YamlConfiguration yaml = loadStrict();
-        String key = normalize(name);
+        String key = name.trim();
         if (!removeKey(yaml, key)) return false;
         write(yaml);
         return true;
@@ -83,7 +81,7 @@ public class WarpStore {
     private boolean removeKey(YamlConfiguration yaml, String key) {
         boolean found = false;
         for (String k : new ArrayList<>(yaml.getKeys(false))) {
-            if (normalize(k).equals(key)) {
+            if (k.equalsIgnoreCase(key)) {
                 yaml.set(k, null);
                 found = true;
             }
@@ -104,7 +102,15 @@ public class WarpStore {
                 ? icon[0].trim().toUpperCase() : "ENDER_PEARL";
         return new Warp(key, s.getString("mundo"), s.getDouble("x"), s.getDouble("y"), s.getDouble("z"),
                 (float) s.getDouble("yaw"), (float) s.getDouble("pitch"), material, data,
-                s.getBoolean("ativo", true), s.getString("grupo"));
+                s.getBoolean("ativo", true), s.getString("grupo"), description(s));
+    }
+
+    private static List<String> description(ConfigurationSection s) {
+        Object raw = s.get("descricao");
+        if (raw instanceof String str) return List.of(str);
+        List<String> lines = new ArrayList<>();
+        if (raw instanceof List<?> list) for (Object o : list) if (o instanceof String str) lines.add(str);
+        return lines;
     }
 
     private void write(YamlConfiguration yaml) {

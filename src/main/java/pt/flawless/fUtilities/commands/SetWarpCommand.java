@@ -12,6 +12,8 @@ import pt.flawless.fUtilities.warps.WarpStore;
 import pt.flawless.fapi.messages.Messages;
 import pt.flawless.fapi.sounds.FSound;
 
+import java.util.List;
+
 /** {@code /setwarp <lugar> [grupo]}. */
 public class SetWarpCommand implements CommandExecutor {
     private final WarpStore store;
@@ -35,7 +37,7 @@ public class SetWarpCommand implements CommandExecutor {
             FSound.fail(player);
             return true;
         }
-        String name = WarpStore.normalize(args[0]);
+        String name = args[0].trim();
         if (name.contains(".")) { // o ponto é separador de caminho no YAML
             player.sendMessage("§cO nome do warp não pode conter '.'.");
             FSound.fail(player);
@@ -48,7 +50,8 @@ public class SetWarpCommand implements CommandExecutor {
         try {
             store.save(new Warp(name, l.getWorld().getName(), l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch(),
                     air ? "ENDER_PEARL" : hand.getType().name(), air || hand.getType().getMaxDurability() > 0 ? 0 : hand.getDurability(),
-                    old == null || old.active(), args.length > 1 ? args[1] : null));
+                    old == null || old.active(), args.length > 1 ? args[1] : null,
+                    old == null ? List.of() : old.description()));
         } catch (RuntimeException e) {
             player.sendMessage("§cErro ao guardar o warp: " + e.getMessage());
             FSound.fail(player);

@@ -33,7 +33,7 @@ public class DelWarpCommand implements CommandExecutor {
             sender.sendMessage("§cErro ao apagar o warp: " + e.getMessage());
             return true;
         }
-        sender.sendMessage(ok ? "§aWarp " + WarpStore.normalize(args[0]) + " apagado." : "§cEsse warp não existe.");
+        sender.sendMessage(ok ? "§aWarp " + args[0].trim() + " apagado." : "§cEsse warp não existe.");
         if (sender instanceof Player p) {
             if (ok) FSound.success(p);
             else FSound.fail(p);

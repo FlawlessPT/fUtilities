@@ -35,6 +35,7 @@ public class WarpMenu implements InventoryHolder {
                 .setDisplayName("§e" + w.name())
                 .setDurability(w.data());
         if (w.group() != null && !w.group().isEmpty()) item.addLoreLine("§7Requer: " + w.group());
+        for (String line : w.description()) item.addLoreLine(line.replace('&', '§'));
         return item.createItem();
     }
 

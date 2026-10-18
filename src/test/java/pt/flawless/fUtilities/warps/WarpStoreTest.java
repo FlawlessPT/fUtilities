@@ -18,7 +18,7 @@ class WarpStoreTest {
     }
 
     private static Warp warp(String name) {
-        return new Warp(name, "world", 1.5, 64, -3.5, 90f, 10f, "DIAMOND", (short) 2, false, "vip");
+        return new Warp(name, "world", 1.5, 64, -3.5, 90f, 10f, "DIAMOND", (short) 2, false, "vip", List.of());
     }
 
     @Test
@@ -99,17 +99,90 @@ class WarpStoreTest {
         File f = new File(dir, "warps.yml");
         Files.writeString(f.toPath(), "Spawn:\n  mundo: w\n");
         WarpStore s = new WarpStore(f);
-        assertEquals("spawn", s.get("spawn").orElseThrow().name());
+        assertEquals("Spawn", s.get("spawn").orElseThrow().name());
         s.save(warp("spawn"));
         assertEquals(1, s.all().size());
         assertTrue(s.delete("SPAWN"));
         assertTrue(s.all().isEmpty());
     }
 
+    private WarpStore fromYaml(String yaml) throws Exception {
+        File f = new File(dir, "warps.yml");
+        Files.writeString(f.toPath(), yaml);
+        return new WarpStore(f);
+    }
+
     @Test
-    void normalizeLowercasesAndTrims() {
-        assertEquals("spawn", WarpStore.normalize("  SpAwN "));
-        store().save(warp("Spawn"));
-        assertTrue(store().get(" SPAWN").isPresent());
+    void keepsExactNameAsTyped() throws Exception {
+        WarpStore s = store();
+        s.save(warp("Spawn"));
+        assertEquals("Spawn", s.all().get(0).name());
+        assertTrue(Files.readString(new File(dir, "sub/warps.yml").toPath()).contains("Spawn:"));
+    }
+
+    @Test
+    void lookupIgnoresCase() {
+        WarpStore s = store();
+        s.save(warp("Spawn"));
+        assertTrue(s.get("SPAWN").isPresent());
+        assertTrue(s.get("spawn").isPresent());
+    }
+
+    @Test
+    void saveReplacesCaseInsensitiveKeyWithNewSpelling() {
+        WarpStore s = store();
+        s.save(warp("spawn"));
+        s.save(warp("Spawn"));
+        assertEquals(1, s.all().size());
+        assertEquals("Spawn", s.all().get(0).name());
+    }
+
+    @Test
+    void deleteIgnoresCase() {
+        WarpStore s = store();
+        s.save(warp("Spawn"));
+        assertTrue(s.delete("sPAWN"));
+        assertTrue(s.all().isEmpty());
+    }
+
+    @Test
+    void legacyLowercaseFileStillWorks() throws Exception {
+        WarpStore s = fromYaml("spawn:\n  mundo: w\n");
+        assertEquals("spawn", s.get("Spawn").orElseThrow().name());
+    }
+
+    @Test
+    void duplicateKeysByCaseDoNotCrash() throws Exception {
+        WarpStore s = fromYaml("Spawn:\n  mundo: w\nspawn:\n  mundo: w\n");
+        assertEquals(2, s.all().size());
+        assertTrue(s.get("SPAWN").isPresent());
+    }
+
+    @Test
+    void descriptionReadAsList() throws Exception {
+        WarpStore s = fromYaml("a:\n  mundo: w\n  descricao:\n    - '&aOla'\n    - linha 2\n");
+        assertEquals(List.of("&aOla", "linha 2"), s.get("a").orElseThrow().description());
+    }
+
+    @Test
+    void descriptionReadFromPlainString() throws Exception {
+        WarpStore s = fromYaml("a:\n  mundo: w\n  descricao: Uma linha\n");
+        assertEquals(List.of("Uma linha"), s.get("a").orElseThrow().description());
+    }
+
+    @Test
+    void missingOrInvalidDescriptionIsEmpty() throws Exception {
+        WarpStore s = fromYaml("a:\n  mundo: w\nb:\n  mundo: w\n  descricao: []\nc:\n  mundo: w\n  descricao:\n    - 5\n");
+        assertTrue(s.get("a").orElseThrow().description().isEmpty());
+        assertTrue(s.get("b").orElseThrow().description().isEmpty());
+        assertTrue(s.get("c").orElseThrow().description().isEmpty());
+    }
+
+    @Test
+    void descriptionSurvivesSave() {
+        WarpStore s = store();
+        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of("x", "y"));
+        s.save(w);
+        assertEquals(w, s.get("a").orElseThrow());
     }
 }
