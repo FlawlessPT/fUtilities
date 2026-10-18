@@ -62,6 +62,7 @@ public class FUtilities extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PrefsInventoryListener(this), this);
         Bukkit.getPluginManager().registerEvents(new WarpMenuListener(teleporter), this);
         Bukkit.getPluginManager().registerEvents(teleporter, this);
+        Bukkit.getPluginManager().registerEvents(new pt.flawless.fUtilities.listeners.WarpAliasListener(warps, teleporter), this);
         Bukkit.getPluginManager().registerEvents(new ReplaceConfirmListener(this, warps, confirmations), this);
     }
 

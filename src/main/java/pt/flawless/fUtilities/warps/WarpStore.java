@@ -11,6 +11,7 @@ import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class WarpStore {
@@ -38,6 +39,13 @@ public class WarpStore {
         return all().stream().filter(w -> w.name().equalsIgnoreCase(key)).findFirst();
     }
 
+    /** Primeiro warp ativo (ordem de {@link #all()}) com este alias. */
+    public Optional<Warp> findByAlias(String alias) {
+        String key = alias.toLowerCase(Locale.ROOT);
+        return all().stream().filter(Warp::active)
+                .filter(w -> w.aliases().stream().anyMatch(a -> a.toLowerCase(Locale.ROOT).equals(key))).findFirst();
+    }
+
     public void save(Warp warp) {
         YamlConfiguration yaml = loadStrict();
         String key = warp.name();
@@ -53,6 +61,7 @@ public class WarpStore {
         s.set("ativo", warp.active());
         s.set("grupo", warp.group());
         s.set("descricao", warp.description().isEmpty() ? null : warp.description());
+        s.set("alias", warp.aliases().isEmpty() ? null : warp.aliases());
         write(yaml);
     }
 
@@ -102,7 +111,7 @@ public class WarpStore {
                 ? icon[0].trim().toUpperCase() : "ENDER_PEARL";
         return new Warp(key, s.getString("mundo"), s.getDouble("x"), s.getDouble("y"), s.getDouble("z"),
                 (float) s.getDouble("yaw"), (float) s.getDouble("pitch"), material, data,
-                s.getBoolean("ativo", true), s.getString("grupo"), description(s));
+                s.getBoolean("ativo", true), s.getString("grupo"), description(s), aliases(s));
     }
 
     private static List<String> description(ConfigurationSection s) {
@@ -111,6 +120,19 @@ public class WarpStore {
         List<String> lines = new ArrayList<>();
         if (raw instanceof List<?> list) for (Object o : list) if (o instanceof String str) lines.add(str);
         return lines;
+    }
+
+    private static List<String> aliases(ConfigurationSection s) {
+        Object raw = s.get("alias");
+        List<Object> items = raw instanceof List<?> l ? new ArrayList<>(l) : raw instanceof String ? List.of(raw) : List.of();
+        List<String> out = new ArrayList<>();
+        for (Object o : items) {
+            if (!(o instanceof String str)) continue;
+            String a = str.trim();
+            if (a.startsWith("/")) a = a.substring(1);
+            if (!a.isEmpty() && !a.contains(" ")) out.add(a);
+        }
+        return out;
     }
 
     private void write(YamlConfiguration yaml) {

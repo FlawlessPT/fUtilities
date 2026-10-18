@@ -18,7 +18,7 @@ class WarpStoreTest {
     }
 
     private static Warp warp(String name) {
-        return new Warp(name, "world", 1.5, 64, -3.5, 90f, 10f, "DIAMOND", (short) 2, false, "vip", List.of());
+        return new Warp(name, "world", 1.5, 64, -3.5, 90f, 10f, "DIAMOND", (short) 2, false, "vip", List.of(), List.of());
     }
 
     @Test
@@ -181,8 +181,55 @@ class WarpStoreTest {
     @Test
     void descriptionSurvivesSave() {
         WarpStore s = store();
-        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of("x", "y"));
+        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of("x", "y"), List.of());
         s.save(w);
         assertEquals(w, s.get("a").orElseThrow());
+    }
+
+    @Test
+    void aliasReadAsList() throws Exception {
+        WarpStore s = fromYaml("a:\n  mundo: w\n  alias:\n    - loja\n    - mercado\n");
+        assertEquals(List.of("loja", "mercado"), s.get("a").orElseThrow().aliases());
+    }
+
+    @Test
+    void aliasReadAsPlainString() throws Exception {
+        WarpStore s = fromYaml("a:\n  mundo: w\n  alias: loja\n");
+        assertEquals(List.of("loja"), s.get("a").orElseThrow().aliases());
+    }
+
+    @Test
+    void aliasStripsSlashAndRejectsInvalid() throws Exception {
+        WarpStore s = fromYaml("a:\n  mundo: w\n  alias:\n    - '/loja'\n    - 'a b'\n    - ''\n    - 5\n    - ' x '\n");
+        assertEquals(List.of("loja", "x"), s.get("a").orElseThrow().aliases());
+        WarpStore n = fromYaml("a:\n  mundo: w\nb:\n  mundo: w\n  alias: []\nc:\n  mundo: w\n  alias: 7\n");
+        assertTrue(n.get("a").orElseThrow().aliases().isEmpty());
+        assertTrue(n.get("b").orElseThrow().aliases().isEmpty());
+        assertTrue(n.get("c").orElseThrow().aliases().isEmpty());
+    }
+
+    @Test
+    void findByAliasIgnoresCaseAndSkipsInactive() throws Exception {
+        WarpStore s = fromYaml("a:\n  mundo: w\n  alias: Loja\nb:\n  mundo: w\n  ativo: false\n  alias: off\n");
+        assertEquals("a", s.findByAlias("LOJA").orElseThrow().name());
+        assertTrue(s.findByAlias("off").isEmpty());
+        assertTrue(s.findByAlias("nada").isEmpty());
+    }
+
+    @Test
+    void findByAliasFirstWinsOnDuplicates() throws Exception {
+        WarpStore s = fromYaml("b:\n  mundo: w\n  alias: x\na:\n  mundo: w\n  alias: x\n");
+        assertEquals("a", s.findByAlias("x").orElseThrow().name());
+    }
+
+    @Test
+    void aliasSurvivesSave() throws Exception {
+        WarpStore s = store();
+        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of(), List.of("loja", "m"));
+        s.save(w);
+        assertEquals(w, s.get("a").orElseThrow());
+        s.save(new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of(), List.of()));
+        assertTrue(s.get("a").orElseThrow().aliases().isEmpty());
+        assertFalse(Files.readString(new File(dir, "sub/warps.yml").toPath()).contains("alias"));
     }
 }
