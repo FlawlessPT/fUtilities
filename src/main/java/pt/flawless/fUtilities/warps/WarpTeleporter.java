@@ -80,12 +80,22 @@ public class WarpTeleporter implements Listener {
             return;
         }
         Bukkit.getScheduler().runTask(plugin, player::closeInventory);
-        player.sendMessage("§aTeleporte em " + delay + " segundos.");
-        pending.put(id, Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            pending.remove(id);
+        int[] remaining = {delay};
+        // Uma mensagem por segundo (delay, ..., 1); ao fim do último segundo teleporta.
+        pending.put(id, Bukkit.getScheduler().runTaskTimer(plugin, () -> {
             Player online = Bukkit.getPlayer(id);
-            if (online != null) go(online, warp);
-        }, delay * 20L));
+            if (online == null) {
+                cancelPending(id);
+                return;
+            }
+            if (remaining[0] > 0) {
+                online.sendMessage("§aTeleporte em §e" + remaining[0] + "§a...");
+                remaining[0]--;
+                return;
+            }
+            cancelPending(id);
+            go(online, warp);
+        }, 0L, 20L));
     }
 
     private void go(Player player, Warp warp) {
@@ -100,7 +110,11 @@ public class WarpTeleporter implements Listener {
 
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
-        BukkitTask t = pending.remove(e.getPlayer().getUniqueId());
+        cancelPending(e.getPlayer().getUniqueId());
+    }
+
+    private void cancelPending(UUID id) {
+        BukkitTask t = pending.remove(id);
         if (t != null) t.cancel();
     }
 
