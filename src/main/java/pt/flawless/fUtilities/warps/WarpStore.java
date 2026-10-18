@@ -62,6 +62,7 @@ public class WarpStore {
         s.set("grupo", warp.group());
         s.set("descricao", warp.description().isEmpty() ? null : warp.description());
         s.set("alias", warp.aliases().isEmpty() ? null : warp.aliases());
+        s.set("cor", "&e".equals(warp.color()) ? null : warp.color());
         write(yaml);
     }
 
@@ -111,7 +112,11 @@ public class WarpStore {
                 ? icon[0].trim().toUpperCase() : "ENDER_PEARL";
         return new Warp(key, s.getString("mundo"), s.getDouble("x"), s.getDouble("y"), s.getDouble("z"),
                 (float) s.getDouble("yaw"), (float) s.getDouble("pitch"), material, data,
-                s.getBoolean("ativo", true), s.getString("grupo"), description(s), aliases(s));
+                s.getBoolean("ativo", true), s.getString("grupo"), description(s), aliases(s), color(s));
+    }
+
+    private static String color(ConfigurationSection s) {
+        return s.get("cor") instanceof String c && !c.isBlank() ? c : "&e";
     }
 
     private static List<String> description(ConfigurationSection s) {

@@ -54,7 +54,8 @@ public class SetWarpCommand implements CommandExecutor {
                 air ? "ENDER_PEARL" : hand.getType().name(), air || hand.getType().getMaxDurability() > 0 ? 0 : hand.getDurability(),
                 old == null || old.active(), args.length > 1 ? args[1] : null,
                 old == null ? List.of() : old.description(),
-                old == null ? List.of() : old.aliases());
+                old == null ? List.of() : old.aliases(),
+                old == null ? "&e" : old.color());
         if (old != null) {
             confirmations.request(player.getUniqueId(), warp);
             player.sendMessage("§eO warp " + old.name() + " já existe. Escreve 'sim' para o substituir.");

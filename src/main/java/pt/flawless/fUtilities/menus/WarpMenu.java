@@ -34,7 +34,7 @@ public class WarpMenu implements InventoryHolder {
     private static org.bukkit.inventory.ItemStack icon(Warp w) {
         Material m = Material.matchMaterial(w.material());
         FItemStack item = new FItemStack(m == null ? Material.ENDER_PEARL : m, 1)
-                .setDisplayName("§e" + w.name())
+                .setDisplayName(w.color().replace('&', '§') + w.name())
                 .setDurability(w.data());
         if (w.group() != null && !w.group().isEmpty()) item.addLoreLine("§7Requer: " + w.group());
         for (String line : w.description()) item.addLoreLine(line.replace('&', '§'));

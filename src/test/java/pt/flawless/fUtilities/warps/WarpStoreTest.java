@@ -18,7 +18,7 @@ class WarpStoreTest {
     }
 
     private static Warp warp(String name) {
-        return new Warp(name, "world", 1.5, 64, -3.5, 90f, 10f, "DIAMOND", (short) 2, false, "vip", List.of(), List.of());
+        return new Warp(name, "world", 1.5, 64, -3.5, 90f, 10f, "DIAMOND", (short) 2, false, "vip", List.of(), List.of(), "&e");
     }
 
     @Test
@@ -181,7 +181,7 @@ class WarpStoreTest {
     @Test
     void descriptionSurvivesSave() {
         WarpStore s = store();
-        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of("x", "y"), List.of());
+        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of("x", "y"), List.of(), "&e");
         s.save(w);
         assertEquals(w, s.get("a").orElseThrow());
     }
@@ -225,11 +225,45 @@ class WarpStoreTest {
     @Test
     void aliasSurvivesSave() throws Exception {
         WarpStore s = store();
-        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of(), List.of("loja", "m"));
+        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of(), List.of("loja", "m"), "&e");
         s.save(w);
         assertEquals(w, s.get("a").orElseThrow());
-        s.save(new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of(), List.of()));
+        s.save(new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of(), List.of(), "&e"));
         assertTrue(s.get("a").orElseThrow().aliases().isEmpty());
         assertFalse(Files.readString(new File(dir, "sub/warps.yml").toPath()).contains("alias"));
+    }
+
+    private Warp readYaml(String body) throws Exception {
+        File f = new File(dir, "warps.yml");
+        Files.writeString(f.toPath(), "a:\n  mundo: w\n" + body);
+        return new WarpStore(f).get("a").orElseThrow();
+    }
+
+    @Test
+    void colorReadFromFile() throws Exception {
+        assertEquals("&6&l", readYaml("  cor: \"&6&l\"\n").color());
+    }
+
+    @Test
+    void missingBlankOrInvalidColorDefaultsToYellow() throws Exception {
+        assertEquals("&e", readYaml("").color());
+        assertEquals("&e", readYaml("  cor: \"\"\n").color());
+        assertEquals("&e", readYaml("  cor: \"  \"\n").color());
+        assertEquals("&e", readYaml("  cor: 5\n").color());
+    }
+
+    @Test
+    void defaultColorNotWrittenOnSave() throws Exception {
+        store().save(warp("a"));
+        assertFalse(Files.readString(new File(dir, "sub/warps.yml").toPath()).contains("cor"));
+    }
+
+    @Test
+    void customColorSurvivesSave() {
+        WarpStore s = store();
+        Warp w = warp("a");
+        s.save(new Warp(w.name(), w.world(), w.x(), w.y(), w.z(), w.yaw(), w.pitch(), w.material(), w.data(),
+                w.active(), w.group(), w.description(), w.aliases(), "&b"));
+        assertEquals("&b", s.get("a").orElseThrow().color());
     }
 }
