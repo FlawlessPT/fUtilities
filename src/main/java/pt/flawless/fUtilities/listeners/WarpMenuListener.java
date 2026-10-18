@@ -23,7 +23,6 @@ public class WarpMenuListener implements Listener {
         if (e.getRawSlot() != e.getSlot() || !(e.getWhoClicked() instanceof Player player)) return; // clique no inventário de baixo
         Warp warp = menu.warpAt(e.getRawSlot());
         if (warp == null) return;
-        player.closeInventory();
         teleporter.teleport(player, warp.name());
     }
 

@@ -47,7 +47,7 @@ public class SetWarpCommand implements CommandExecutor {
         Location l = player.getLocation();
         try {
             store.save(new Warp(name, l.getWorld().getName(), l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch(),
-                    air ? "ENDER_PEARL" : hand.getType().name(), air ? 0 : hand.getDurability(),
+                    air ? "ENDER_PEARL" : hand.getType().name(), air || hand.getType().getMaxDurability() > 0 ? 0 : hand.getDurability(),
                     old == null || old.active(), args.length > 1 ? args[1] : null));
         } catch (RuntimeException e) {
             player.sendMessage("§cErro ao guardar o warp: " + e.getMessage());
