@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import pt.flawless.fUtilities.warps.Warp;
-import pt.flawless.fUtilities.warps.WarpMenuSize;
+import pt.flawless.fUtilities.warps.WarpMenuLayout;
 import pt.flawless.fUtilities.warps.WarpStore;
 import pt.flawless.fapi.enums.FInventorySize;
 import pt.flawless.fapi.inventory.FInventory;
@@ -21,12 +21,14 @@ public class WarpMenu implements InventoryHolder {
 
     public WarpMenu(WarpStore store, Player player) {
         this.player = player;
-        this.shown = store.all().stream().filter(Warp::active).limit(54).toList();
-        int size = WarpMenuSize.forCount(shown.size());
-        FInventorySize fsize = FInventorySize.SIZE_9;
-        for (FInventorySize s : FInventorySize.values()) if (s.getSize() == size) fsize = s;
-        this.inventory = new FInventory(this, fsize, "§8Warps").getInventory();
-        for (int i = 0; i < shown.size(); i++) inventory.setItem(i, icon(shown.get(i)));
+        this.shown = store.all().stream().filter(Warp::active).limit(WarpMenuLayout.capacity()).toList();
+        this.inventory = new FInventory(this, FInventorySize.SIZE_54, "§8Warps").getInventory();
+        // nome " " (espaço): o Bukkit 1.8 aceita e o tooltip fica vazio
+        org.bukkit.inventory.ItemStack glass = new FItemStack(Material.STAINED_GLASS_PANE, 1)
+                .setDisplayName(" ").setDurability((short) 7).createItem();
+        for (int i = 0; i < WarpMenuLayout.SIZE; i++) if (WarpMenuLayout.isBorder(i)) inventory.setItem(i, glass);
+        List<Integer> slots = WarpMenuLayout.innerSlots();
+        for (int i = 0; i < shown.size(); i++) inventory.setItem(slots.get(i), icon(shown.get(i)));
     }
 
     private static org.bukkit.inventory.ItemStack icon(Warp w) {
@@ -45,7 +47,8 @@ public class WarpMenu implements InventoryHolder {
 
     /** Warp mostrado neste slot, ou nulo. */
     public Warp warpAt(int slot) {
-        return slot >= 0 && slot < shown.size() ? shown.get(slot) : null;
+        int i = WarpMenuLayout.innerSlots().indexOf(slot);
+        return i >= 0 && i < shown.size() ? shown.get(i) : null;
     }
 
     @Override
