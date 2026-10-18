@@ -105,6 +105,7 @@ public class WarpTeleporter implements Listener {
             return;
         }
         player.teleport(new Location(world, warp.x(), warp.y(), warp.z(), warp.yaw(), warp.pitch()));
+        player.sendMessage("§aTeleportado para o warp §e" + warp.name() + "§a.");
         FSound.success(player);
     }
 
