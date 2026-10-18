@@ -14,7 +14,7 @@ class ReplaceConfirmationsTest {
     private final UUID p = UUID.randomUUID();
 
     private static Warp w(String name) {
-        return new Warp(name, "world", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of(), List.of(), "&e");
+        return new Warp(name, "world", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of(), List.of(), null);
     }
 
     @Test
