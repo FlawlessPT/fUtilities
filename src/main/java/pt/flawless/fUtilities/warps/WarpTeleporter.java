@@ -89,7 +89,7 @@ public class WarpTeleporter implements Listener {
                 return;
             }
             if (remaining[0] > 0) {
-                online.sendMessage("§aTeleporte em §e" + remaining[0] + "§a...");
+                online.sendMessage("§aTeleporte em §7" + remaining[0] + "§a...");
                 remaining[0]--;
                 return;
             }
@@ -105,7 +105,8 @@ public class WarpTeleporter implements Listener {
             return;
         }
         player.teleport(new Location(world, warp.x(), warp.y(), warp.z(), warp.yaw(), warp.pitch()));
-        player.sendMessage("§aTeleportado para o warp §e" + warp.name() + "§a.");
+        String shown = warp.title() != null ? warp.title().replace('&', '§') : "§7" + warp.name();
+        player.sendMessage("§aTeleportado para o warp " + shown + "§a.");
         FSound.success(player);
     }
 
