@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pt.flawless.fUtilities.commands.*;
 import pt.flawless.fUtilities.listeners.CommandsInventoryClickListener;
 import pt.flawless.fUtilities.listeners.GameModeChangeListener;
+import pt.flawless.fUtilities.listeners.GodListener;
 import pt.flawless.fUtilities.listeners.PrefsInventoryListener;
 import pt.flawless.fUtilities.listeners.ReplaceConfirmListener;
 import pt.flawless.fUtilities.listeners.WarpMenuListener;
@@ -30,6 +31,7 @@ public class FUtilities extends JavaPlugin {
     private PermissionsApi perms;
     private WarpTeleporter teleporter;
     private WarpStore warps;
+    private final GodListener god = new GodListener();
     private final ReplaceConfirmations confirmations = new ReplaceConfirmations(System::currentTimeMillis, 15000);
 
     private void registerCommands() {
@@ -39,6 +41,8 @@ public class FUtilities extends JavaPlugin {
         getCommand("feed").setExecutor(new FeedCommand());
         getCommand("clearchat").setExecutor(new ClearChatCommand());
         getCommand("fly").setExecutor(new FlyCommand());
+        getCommand("repair").setExecutor(new RepairCommand());
+        getCommand("god").setExecutor(new GodCommand(god));
         getCommand("comandos").setExecutor(new CommandsCommand());
         getCommand("tphere").setExecutor(new TphereCommand());
         getCommand("vida").setExecutor(new VidaCommand());
@@ -59,6 +63,7 @@ public class FUtilities extends JavaPlugin {
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(new CommandsInventoryClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new GameModeChangeListener(), this);
+        Bukkit.getPluginManager().registerEvents(god, this);
         Bukkit.getPluginManager().registerEvents(new PrefsInventoryListener(this), this);
         Bukkit.getPluginManager().registerEvents(new WarpMenuListener(teleporter), this);
         Bukkit.getPluginManager().registerEvents(teleporter, this);

@@ -35,6 +35,14 @@ commands:
     description: Set night time to current world
   clear:
     description: Clear own or other player's inventory
+  repair:
+    description: Repara o item na mão ou todo o inventário
+    usage: /repair [all]
+    permission: futilities.repair
+  god:
+    description: Alterna o modo deus (sem dano, continuas em survival)
+    usage: /god
+    permission: futilities.god
   broadcast:
     description: Broadcast a message to all players
   prefs:
@@ -57,3 +65,7 @@ permissions:
     description: Criar e apagar warps
   futilities.warp.bypass:
     description: Teleporte de warps sem espera
+  futilities.repair:
+    description: Usar /repair
+  futilities.god:
+    description: Usar /god
