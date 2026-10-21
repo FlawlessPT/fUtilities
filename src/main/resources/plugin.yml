@@ -43,6 +43,10 @@ commands:
     description: Alterna o modo deus (sem dano, continuas em survival)
     usage: /god
     permission: futilities.god
+  stack:
+    description: Junta todos os itens iguais ao da mão em pilhas de 64
+    usage: /stack
+    permission: futilities.stack
   broadcast:
     description: Broadcast a message to all players
   prefs:
@@ -69,3 +73,5 @@ permissions:
     description: Usar /repair
   futilities.god:
     description: Usar /god
+  futilities.stack:
+    description: Usar /stack

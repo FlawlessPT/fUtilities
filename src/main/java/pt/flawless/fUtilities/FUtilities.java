@@ -43,6 +43,7 @@ public class FUtilities extends JavaPlugin {
         getCommand("fly").setExecutor(new FlyCommand());
         getCommand("repair").setExecutor(new RepairCommand());
         getCommand("god").setExecutor(new GodCommand(god));
+        getCommand("stack").setExecutor(new StackCommand());
         getCommand("comandos").setExecutor(new CommandsCommand());
         getCommand("tphere").setExecutor(new TphereCommand());
         getCommand("vida").setExecutor(new VidaCommand());
