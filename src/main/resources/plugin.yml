@@ -47,6 +47,21 @@ commands:
     description: Junta todos os itens iguais ao da mão em pilhas de 64
     usage: /stack
     permission: futilities.stack
+  enderchest:
+    description: Abre o teu enderchest
+    usage: /enderchest
+    aliases: [echest, ec]
+    permission: futilities.enderchest
+  bau:
+    description: Abre um baú pessoal
+    usage: /bau [número]
+    aliases: [chest]
+    permission: futilities.bau
+  iteminfo:
+    description: Mostra o material e os detalhes do item na mão
+    usage: /iteminfo
+    aliases: [mat]
+    permission: futilities.iteminfo
   broadcast:
     description: Broadcast a message to all players
   prefs:
@@ -75,3 +90,11 @@ permissions:
     description: Usar /god
   futilities.stack:
     description: Usar /stack
+  futilities.enderchest:
+    description: Usar /enderchest
+  futilities.bau:
+    description: Usar /bau (baú 1); os seguintes pedem futilities.bau.<número>
+  futilities.bau.2:
+    description: Baú pessoal 2
+  futilities.iteminfo:
+    description: Usar /iteminfo

@@ -8,6 +8,8 @@ import pt.flawless.fUtilities.commands.*;
 import pt.flawless.fUtilities.listeners.CommandsInventoryClickListener;
 import pt.flawless.fUtilities.listeners.GameModeChangeListener;
 import pt.flawless.fUtilities.listeners.GodListener;
+import pt.flawless.fUtilities.listeners.PersonalChestListener;
+import pt.flawless.fUtilities.chests.ChestStore;
 import pt.flawless.fUtilities.listeners.PrefsInventoryListener;
 import pt.flawless.fUtilities.listeners.ReplaceConfirmListener;
 import pt.flawless.fUtilities.listeners.WarpMenuListener;
@@ -32,6 +34,7 @@ public class FUtilities extends JavaPlugin {
     private WarpTeleporter teleporter;
     private WarpStore warps;
     private final GodListener god = new GodListener();
+    private ChestStore chests;
     private final ReplaceConfirmations confirmations = new ReplaceConfirmations(System::currentTimeMillis, 15000);
 
     private void registerCommands() {
@@ -44,6 +47,10 @@ public class FUtilities extends JavaPlugin {
         getCommand("repair").setExecutor(new RepairCommand());
         getCommand("god").setExecutor(new GodCommand(god));
         getCommand("stack").setExecutor(new StackCommand());
+        getCommand("iteminfo").setExecutor(new ItemInfoCommand());
+        chests = new ChestStore(getDataFolder());
+        getCommand("enderchest").setExecutor(new EnderChestCommand());
+        getCommand("bau").setExecutor(new BauCommand(chests));
         getCommand("comandos").setExecutor(new CommandsCommand());
         getCommand("tphere").setExecutor(new TphereCommand());
         getCommand("vida").setExecutor(new VidaCommand());
@@ -65,6 +72,7 @@ public class FUtilities extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new CommandsInventoryClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new GameModeChangeListener(), this);
         Bukkit.getPluginManager().registerEvents(god, this);
+        Bukkit.getPluginManager().registerEvents(new PersonalChestListener(this, chests), this);
         Bukkit.getPluginManager().registerEvents(new PrefsInventoryListener(this), this);
         Bukkit.getPluginManager().registerEvents(new WarpMenuListener(teleporter), this);
         Bukkit.getPluginManager().registerEvents(teleporter, this);
@@ -103,6 +111,10 @@ public class FUtilities extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // fecha os baús abertos (grava-os) antes de largar os listeners
+        for (org.bukkit.entity.Player online : Bukkit.getOnlinePlayers()) {
+            if (online.getOpenInventory().getTopInventory().getHolder() instanceof pt.flawless.fUtilities.chests.PersonalChest) online.closeInventory();
+        }
         HandlerList.unregisterAll();
 
         consoleLogger.sendDisablePluginMessage();
