@@ -17,7 +17,7 @@ import pt.flawless.fapi.sounds.FSound;
 public class CommandsInventoryClickListener extends VariablesManager implements Listener {
     @EventHandler
     public void onCommandsMenuInventoryClick(InventoryClickEvent e) {
-        if (e.getInventory().getTitle().equalsIgnoreCase(titulo)) {
+        if (e.getView().getTitle().equalsIgnoreCase(titulo)) {
             e.setCancelled(true);
 
             Material clickedItem = e.getCurrentItem().getType();
@@ -51,10 +51,10 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
                 setNightTime(e);
             }
 
-            if (clickedItem.equals(Material.STONE_PICKAXE) || clickedItem.equals(Material.GRASS) || clickedItem.equals(Material.COMPASS) || clickedItem.equals(Material.ENDER_PEARL)) {
+            if (clickedItem.equals(Material.STONE_PICKAXE) || clickedItem.equals(Material.GRASS_BLOCK) || clickedItem.equals(Material.COMPASS) || clickedItem.equals(Material.ENDER_PEARL)) {
 //                switch (clickedItem) {
 //                    case STONE_PICKAXE ->
-//                            e.setCurrentItem(new FItemStack(Material.GRASS, 1).setDisplayName("§2Creative").createItem());
+//                            e.setCurrentItem(new FItemStack(Material.GRASS_BLOCK, 1).setDisplayName("§2Creative").createItem());
 //                    case GRASS ->
 //                            e.setCurrentItem(new FItemStack(Material.COMPASS, 1).setDisplayName("§8Adventure").createItem());
 //                    case COMPASS ->

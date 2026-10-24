@@ -28,13 +28,13 @@ public class PrefsMenu implements InventoryHolder {
     /** Desenha o estado atual; chamar também depois de uma alteração. */
     public void render() {
         // nome " " (espaço): o Bukkit 1.8 aceita e o tooltip fica vazio
-        org.bukkit.inventory.ItemStack glass = new FItemStack(Material.STAINED_GLASS_PANE, 1)
-                .setDisplayName(" ").setDurability((short) 7).createItem();
+        org.bukkit.inventory.ItemStack glass = new FItemStack(Material.GRAY_STAINED_GLASS_PANE, 1)
+                .setDisplayName(" ").createItem();
         for (int i = 0; i < WarpMenuLayout.SIZE; i++) if (WarpMenuLayout.isBorder(i)) inventory.setItem(i, glass);
         Channel current = chat.getDefaultChannel(player.getUniqueId());
         String name = current == Channel.GLOBAL ? "§aGlobal" : "§aLocal";
         String next = current == Channel.GLOBAL ? "Local" : "Global";
-        inventory.setItem(CHAT_SLOT, new FItemStack(Material.BOOK_AND_QUILL, 1)
+        inventory.setItem(CHAT_SLOT, new FItemStack(Material.WRITABLE_BOOK, 1)
                 .setDisplayName("§eChat padrão: " + name)
                 .addLoreLine("§7Canal do chat normal.")
                 .addLoreLine("§7Clica para mudar para " + next + ".")

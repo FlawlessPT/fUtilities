@@ -24,8 +24,8 @@ public class WarpMenu implements InventoryHolder {
         this.shown = store.all().stream().filter(Warp::active).limit(WarpMenuLayout.capacity()).toList();
         this.inventory = new FInventory(this, FInventorySize.SIZE_54, "§8Warps").getInventory();
         // nome " " (espaço): o Bukkit 1.8 aceita e o tooltip fica vazio
-        org.bukkit.inventory.ItemStack glass = new FItemStack(Material.STAINED_GLASS_PANE, 1)
-                .setDisplayName(" ").setDurability((short) 7).createItem();
+        org.bukkit.inventory.ItemStack glass = new FItemStack(Material.GRAY_STAINED_GLASS_PANE, 1)
+                .setDisplayName(" ").createItem();
         for (int i = 0; i < WarpMenuLayout.SIZE; i++) if (WarpMenuLayout.isBorder(i)) inventory.setItem(i, glass);
         List<Integer> slots = WarpMenuLayout.innerSlots();
         for (int i = 0; i < shown.size(); i++) inventory.setItem(slots.get(i), icon(shown.get(i)));
@@ -34,8 +34,7 @@ public class WarpMenu implements InventoryHolder {
     private static org.bukkit.inventory.ItemStack icon(Warp w) {
         Material m = Material.matchMaterial(w.material());
         FItemStack item = new FItemStack(m == null ? Material.ENDER_PEARL : m, 1)
-                .setDisplayName(w.title() != null ? w.title().replace('&', '§') : "§e" + w.name())
-                .setDurability(w.data());
+                .setDisplayName(w.title() != null ? w.title().replace('&', '§') : "§e" + w.name());
         if (w.group() != null && !w.group().isEmpty()) item.addLoreLine("§7Requer: " + w.group());
         for (String line : w.description()) item.addLoreLine(line.replace('&', '§'));
         return item.createItem();

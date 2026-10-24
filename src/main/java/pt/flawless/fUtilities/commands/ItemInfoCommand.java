@@ -24,7 +24,7 @@ public class ItemInfoCommand implements CommandExecutor {
             p.sendMessage("§cUso: /iteminfo");
             return true;
         }
-        ItemStack item = p.getItemInHand();
+        ItemStack item = p.getInventory().getItemInMainHand();
         if (item == null || item.getType() == Material.AIR) {
             p.sendMessage("§cNão tens nenhum item na mão.");
             FSound.fail(p);
@@ -33,10 +33,9 @@ public class ItemInfoCommand implements CommandExecutor {
         Material type = item.getType();
         p.sendMessage("§8§m                    ");
         p.sendMessage("§eMaterial: §7" + type.name());
-        p.sendMessage("§eID: §7" + type.getId() + "§e Data: §7" + item.getDurability());
         p.sendMessage("§eQuantidade: §7" + item.getAmount() + "§e Máx. pilha: §7" + type.getMaxStackSize());
         if (type.getMaxDurability() > 0) {
-            p.sendMessage("§eDurabilidade: §7" + (type.getMaxDurability() - item.getDurability()) + "/" + type.getMaxDurability());
+            p.sendMessage("§eDurabilidade: §7" + (type.getMaxDurability() - (item.getItemMeta() instanceof org.bukkit.inventory.meta.Damageable d ? d.getDamage() : 0)) + "/" + type.getMaxDurability());
         }
         ItemMeta meta = item.getItemMeta();
         if (meta != null && meta.hasDisplayName()) p.sendMessage("§eNome: §r" + meta.getDisplayName());

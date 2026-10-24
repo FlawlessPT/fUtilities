@@ -18,7 +18,7 @@ class WarpStoreTest {
     }
 
     private static Warp warp(String name) {
-        return new Warp(name, "world", 1.5, 64, -3.5, 90f, 10f, "DIAMOND", (short) 2, false, "vip", List.of(), List.of(), null);
+        return new Warp(name, "world", 1.5, 64, -3.5, 90f, 10f, "DIAMOND", false, "vip", List.of(), List.of(), null);
     }
 
     @Test
@@ -49,7 +49,6 @@ class WarpStoreTest {
         Files.writeString(f.toPath(), "spawn:\n  mundo: world\n  x: 1.0\n  y: 2.0\n  z: 3.0\n");
         Warp w = new WarpStore(f).get("spawn").orElseThrow();
         assertEquals("ENDER_PEARL", w.material());
-        assertEquals(0, w.data());
         assertTrue(w.active());
         assertNull(w.group());
         assertEquals(0f, w.yaw());
@@ -90,7 +89,6 @@ class WarpStoreTest {
         Files.writeString(f.toPath(), "a:\n  mundo: w\n  icone: WOOL:x\nb:\n  mundo: w\n  icone: NOPE:3\n");
         WarpStore s = new WarpStore(f);
         assertEquals("WOOL", s.get("a").orElseThrow().material());
-        assertEquals(0, s.get("a").orElseThrow().data());
         assertEquals("ENDER_PEARL", s.get("b").orElseThrow().material());
     }
 
@@ -181,7 +179,7 @@ class WarpStoreTest {
     @Test
     void descriptionSurvivesSave() {
         WarpStore s = store();
-        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of("x", "y"), List.of(), null);
+        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", true, null, List.of("x", "y"), List.of(), null);
         s.save(w);
         assertEquals(w, s.get("a").orElseThrow());
     }
@@ -225,10 +223,10 @@ class WarpStoreTest {
     @Test
     void aliasSurvivesSave() throws Exception {
         WarpStore s = store();
-        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of(), List.of("loja", "m"), null);
+        Warp w = new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", true, null, List.of(), List.of("loja", "m"), null);
         s.save(w);
         assertEquals(w, s.get("a").orElseThrow());
-        s.save(new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", (short) 0, true, null, List.of(), List.of(), null));
+        s.save(new Warp("a", "w", 0, 0, 0, 0, 0, "STONE", true, null, List.of(), List.of(), null));
         assertTrue(s.get("a").orElseThrow().aliases().isEmpty());
         assertFalse(Files.readString(new File(dir, "sub/warps.yml").toPath()).contains("alias"));
     }
@@ -262,7 +260,7 @@ class WarpStoreTest {
     void titleSurvivesSave() {
         WarpStore s = store();
         Warp w = warp("a");
-        s.save(new Warp(w.name(), w.world(), w.x(), w.y(), w.z(), w.yaw(), w.pitch(), w.material(), w.data(),
+        s.save(new Warp(w.name(), w.world(), w.x(), w.y(), w.z(), w.yaw(), w.pitch(), w.material(),
                 w.active(), w.group(), w.description(), w.aliases(), "&b&lA"));
         assertEquals("&b&lA", s.get("a").orElseThrow().title());
     }

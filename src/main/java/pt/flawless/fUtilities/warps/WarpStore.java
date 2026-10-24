@@ -57,7 +57,7 @@ public class WarpStore {
         s.set("z", warp.z());
         s.set("yaw", warp.yaw());
         s.set("pitch", warp.pitch());
-        s.set("icone", warp.data() == 0 ? warp.material() : warp.material() + ":" + warp.data());
+        s.set("icone", warp.material());
         s.set("ativo", warp.active());
         s.set("grupo", warp.group());
         s.set("descricao", warp.description().isEmpty() ? null : warp.description());
@@ -101,17 +101,11 @@ public class WarpStore {
 
     private Warp read(String key, ConfigurationSection s) {
         String[] icon = s.getString("icone", "ENDER_PEARL").split(":");
-        short data = 0;
-        if (icon.length > 1) {
-            try {
-                data = Short.parseShort(icon[1].trim());
-            } catch (NumberFormatException ignored) {
-            }
-        }
+        // o que vier depois de ":" (data value do 1.8) é ignorado
         String material = Material.getMaterial(icon[0].trim().toUpperCase()) != null
                 ? icon[0].trim().toUpperCase() : "ENDER_PEARL";
         return new Warp(key, s.getString("mundo"), s.getDouble("x"), s.getDouble("y"), s.getDouble("z"),
-                (float) s.getDouble("yaw"), (float) s.getDouble("pitch"), material, data,
+                (float) s.getDouble("yaw"), (float) s.getDouble("pitch"), material,
                 s.getBoolean("ativo", true), s.getString("grupo"), description(s), aliases(s), title(s));
     }
 

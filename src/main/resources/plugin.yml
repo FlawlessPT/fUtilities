@@ -2,6 +2,7 @@ name: fUtilities
 main: pt.flawless.fUtilities.FUtilities
 description: FUtilities server utilities
 version: 1.0
+api-version: '1.21'
 depend: [fAPI]
 softdepend: [fChat, fPermissions]
 commands:

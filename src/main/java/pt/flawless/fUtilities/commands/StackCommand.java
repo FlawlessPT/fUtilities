@@ -27,7 +27,7 @@ public class StackCommand implements CommandExecutor {
             return true;
         }
         PlayerInventory inv = p.getInventory();
-        ItemStack hand = inv.getItemInHand();
+        ItemStack hand = inv.getItemInMainHand();
         if (hand == null || hand.getType() == Material.AIR) {
             p.sendMessage("§cNão tens nenhum item na mão.");
             FSound.fail(p);

@@ -79,7 +79,7 @@ public class WarpTeleporter implements Listener {
             });
             return;
         }
-        Bukkit.getScheduler().runTask(plugin, player::closeInventory);
+        Bukkit.getScheduler().runTask(plugin, () -> player.closeInventory());
         int[] remaining = {delay};
         // Uma mensagem por segundo (delay, ..., 1); ao fim do último segundo teleporta.
         pending.put(id, Bukkit.getScheduler().runTaskTimer(plugin, () -> {

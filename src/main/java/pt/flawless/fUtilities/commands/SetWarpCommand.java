@@ -46,12 +46,12 @@ public class SetWarpCommand implements CommandExecutor {
             FSound.fail(player);
             return true;
         }
-        ItemStack hand = player.getItemInHand();
+        ItemStack hand = player.getInventory().getItemInMainHand();
         boolean air = hand == null || hand.getType() == Material.AIR;
         Warp old = store.get(name).orElse(null);
         Location l = player.getLocation();
         Warp warp = new Warp(name, l.getWorld().getName(), l.getX(), l.getY(), l.getZ(), l.getYaw(), l.getPitch(),
-                air ? "ENDER_PEARL" : hand.getType().name(), air || hand.getType().getMaxDurability() > 0 ? 0 : hand.getDurability(),
+                air ? "ENDER_PEARL" : hand.getType().name(),
                 old == null || old.active(), args.length > 1 ? args[1] : null,
                 old == null ? List.of() : old.description(),
                 old == null ? List.of() : old.aliases(),

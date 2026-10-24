@@ -14,31 +14,31 @@ public class CommandsMenu extends VariablesManager implements IBaseMenu {
     public void loadMenu(Player player) {
         FInventory fInventory = new FInventory(FInventorySize.SIZE_36, titulo);
         FItemStack fly = new FItemStack(Material.FEATHER, 1).setDisplayName(nameFly).addLoreLine(loreFly);
-        FItemStack flyState = new FItemStack(Material.STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOff);
+        FItemStack flyState = new FItemStack(Material.RED_STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOff);
         FItemStack rain = new FItemStack(Material.WATER_BUCKET, 1).setDisplayName(nameRain).addLoreLine(loreRain);
-        FItemStack rainState = new FItemStack(Material.STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOff);
+        FItemStack rainState = new FItemStack(Material.RED_STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOff);
         FItemStack clearChat = new FItemStack(Material.PAPER, 1).setDisplayName(nameChat).addLoreLine(loreChat);
         FItemStack heal = new FItemStack(Material.GOLDEN_CARROT, 1).setDisplayName(nameHeal).addLoreLine(loreHeal);
         FItemStack day = new FItemStack(Material.TORCH, 1).setDisplayName("§2Dia").addLoreLine("§7Clica para colocar de dia.");
         FItemStack night = new FItemStack(Material.COAL, 1).setDisplayName("§5Noite").addLoreLine("§7Clica para colocar de noite.");
         FItemStack gameMode;
 
-        FItemStack filler = new FItemStack(Material.STAINED_GLASS_PANE, 1).setDisplayName(nameFiller).setDurability(DyeColor.BLACK.getData());
+        FItemStack filler = new FItemStack(Material.BLACK_STAINED_GLASS_PANE, 1).setDisplayName(nameFiller);
 
         if (player.getWorld().hasStorm()) {
-            rainState = new FItemStack(Material.STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOn).setDurability(DyeColor.YELLOW.getData());
+            rainState = new FItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOn);
         } else {
-            rainState.setDisplayName(nameFlyStateOff).setDurability(DyeColor.RED.getData());
+            rainState = new FItemStack(Material.RED_STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOff);
         }
 
         if (player.getAllowFlight()) {
-            flyState = new FItemStack(Material.STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOn).setDurability(DyeColor.YELLOW.getData());
+            flyState = new FItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOn);
         } else {
-            flyState.setDisplayName(nameFlyStateOff).setDurability(DyeColor.RED.getData());
+            flyState = new FItemStack(Material.RED_STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOff);
         }
 
         switch (player.getGameMode()) {
-            case CREATIVE -> gameMode = new FItemStack(Material.GRASS, 1).setDisplayName("§2Creative");
+            case CREATIVE -> gameMode = new FItemStack(Material.GRASS_BLOCK, 1).setDisplayName("§2Creative");
             case ADVENTURE -> gameMode = new FItemStack(Material.COMPASS, 1).setDisplayName("§8Adventure");
             case SPECTATOR -> gameMode = new FItemStack(Material.ENDER_PEARL, 1).setDisplayName("§9Spectator");
             default -> gameMode = new FItemStack(Material.STONE_PICKAXE, 1).setDisplayName("§4Survival"); // survival

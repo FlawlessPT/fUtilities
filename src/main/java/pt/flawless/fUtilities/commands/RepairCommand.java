@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
 import pt.flawless.fapi.sounds.FSound;
 
 public class RepairCommand implements CommandExecutor {
@@ -16,7 +17,7 @@ public class RepairCommand implements CommandExecutor {
             return true;
         }
         if (args.length == 0) {
-            if (!repair(p.getItemInHand())) {
+            if (!repair(p.getInventory().getItemInMainHand())) {
                 p.sendMessage("§cO item na tua mão não pode ser reparado.");
                 FSound.fail(p);
                 return true;
@@ -44,8 +45,9 @@ public class RepairCommand implements CommandExecutor {
 
     /** Repõe a durabilidade; false se o item não tem durabilidade ou já está inteiro. */
     private static boolean repair(ItemStack item) {
-        if (item == null || item.getType().getMaxDurability() <= 0 || item.getDurability() == 0) return false;
-        item.setDurability((short) 0);
+        if (item == null || item.getType().getMaxDurability() <= 0 || !(item.getItemMeta() instanceof Damageable meta) || meta.getDamage() == 0) return false;
+        meta.setDamage(0);
+        item.setItemMeta(meta);
         return true;
     }
 }
