@@ -34,3 +34,10 @@ Menus:
         Lore: "&7Clica para regenerar toda a tua vida e fome."
       Filler:
         Name: "&8"
+  Arenas:
+    Titulo: "&8Arenas"
+    Info:
+      Name: "&cArenas"
+      Lore:
+        - "&7Escolhe uma arena para combater."
+        - "&7Clica numa arena para te teleportares."

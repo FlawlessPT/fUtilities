@@ -13,6 +13,11 @@ import pt.flawless.fUtilities.chests.ChestStore;
 import pt.flawless.fUtilities.listeners.PrefsInventoryListener;
 import pt.flawless.fUtilities.listeners.ReplaceConfirmListener;
 import pt.flawless.fUtilities.listeners.WarpMenuListener;
+import pt.flawless.fUtilities.arenas.ArenaStore;
+import pt.flawless.fUtilities.commands.ArenaCommand;
+import pt.flawless.fUtilities.commands.ArenasCommand;
+import pt.flawless.fUtilities.commands.SetArenaCommand;
+import pt.flawless.fUtilities.listeners.ArenaMenuListener;
 import pt.flawless.fUtilities.warps.ReplaceConfirmations;
 import pt.flawless.fapi.chat.ChatApi;
 import pt.flawless.fapi.chat.Chats;
@@ -33,6 +38,7 @@ public class FUtilities extends JavaPlugin {
     private PermissionsApi perms;
     private WarpTeleporter teleporter;
     private WarpStore warps;
+    private ArenaStore arenas;
     private final GodListener god = new GodListener();
     private ChestStore chests;
     private final ReplaceConfirmations confirmations = new ReplaceConfirmations(System::currentTimeMillis, 15000);
@@ -62,6 +68,10 @@ public class FUtilities extends JavaPlugin {
         getCommand("prefs").setExecutor(new PrefsCommand(chat));
 
         warps = new WarpStore(new File(getDataFolder(), "warps.yml"));
+        arenas = new ArenaStore(new File(getDataFolder(), "arenas.yml"));
+        getCommand("arena").setExecutor(new ArenaCommand(arenas));
+        getCommand("arenas").setExecutor(new ArenasCommand(arenas));
+        getCommand("setarena").setExecutor(new SetArenaCommand(arenas));
         teleporter = new WarpTeleporter(this, warps, perms);
         getCommand("warp").setExecutor(new WarpCommand(teleporter, warps));
         getCommand("setwarp").setExecutor(new SetWarpCommand(warps, confirmations));
@@ -75,6 +85,7 @@ public class FUtilities extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PersonalChestListener(this, chests), this);
         Bukkit.getPluginManager().registerEvents(new PrefsInventoryListener(this), this);
         Bukkit.getPluginManager().registerEvents(new WarpMenuListener(teleporter), this);
+        Bukkit.getPluginManager().registerEvents(new ArenaMenuListener(arenas), this);
         Bukkit.getPluginManager().registerEvents(teleporter, this);
         Bukkit.getPluginManager().registerEvents(new pt.flawless.fUtilities.listeners.WarpAliasListener(warps, teleporter), this);
         Bukkit.getPluginManager().registerEvents(new ReplaceConfirmListener(this, warps, confirmations), this);

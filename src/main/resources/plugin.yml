@@ -63,6 +63,16 @@ commands:
     usage: /iteminfo
     aliases: [mat]
     permission: futilities.iteminfo
+  arena:
+    description: Teleporta para uma arena
+    usage: /arena <nome>
+  arenas:
+    description: Abre o menu das arenas
+    usage: /arenas
+  setarena:
+    description: Define a localização de uma arena
+    usage: /setarena <nome>
+    permission: futilities.arena.admin
   broadcast:
     description: Broadcast a message to all players
   prefs:
@@ -99,3 +109,5 @@ permissions:
     description: Baú pessoal 2
   futilities.iteminfo:
     description: Usar /iteminfo
+  futilities.arena.admin:
+    description: Definir arenas (/setarena)
