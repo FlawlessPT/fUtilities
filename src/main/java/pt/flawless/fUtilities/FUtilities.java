@@ -15,12 +15,16 @@ import pt.flawless.fUtilities.listeners.ReplaceConfirmListener;
 import pt.flawless.fUtilities.listeners.WarpMenuListener;
 import pt.flawless.fUtilities.arenas.ArenaStore;
 import pt.flawless.fUtilities.commands.ArenaCommand;
+import pt.flawless.fUtilities.commands.TellCommand;
+import pt.flawless.fUtilities.commands.TpaCommand;
 import pt.flawless.fUtilities.commands.ArenasCommand;
 import pt.flawless.fUtilities.commands.SetArenaCommand;
 import pt.flawless.fUtilities.listeners.ArenaMenuListener;
 import pt.flawless.fUtilities.warps.ReplaceConfirmations;
 import pt.flawless.fapi.chat.ChatApi;
 import pt.flawless.fapi.chat.Chats;
+import pt.flawless.fapi.friends.Friends;
+import pt.flawless.fapi.friends.FriendsApi;
 import pt.flawless.fapi.enums.EMessageTypeEnum;
 import pt.flawless.fapi.logs.FConsoleLogger;
 import pt.flawless.fapi.permissions.Permissions;
@@ -35,6 +39,7 @@ public class FUtilities extends JavaPlugin {
     FConsoleLogger consoleLogger = new FConsoleLogger(this.getName());
 
     private ChatApi chat;
+    private FriendsApi friends;
     private PermissionsApi perms;
     private WarpTeleporter teleporter;
     private WarpStore warps;
@@ -53,6 +58,14 @@ public class FUtilities extends JavaPlugin {
         getCommand("repair").setExecutor(new RepairCommand());
         getCommand("god").setExecutor(new GodCommand(god));
         getCommand("stack").setExecutor(new StackCommand());
+        TellCommand tell = new TellCommand();
+        getCommand("tell").setExecutor(tell);
+        getCommand("r").setExecutor(tell);
+        Bukkit.getPluginManager().registerEvents(tell, this);
+        TpaCommand tpa = new TpaCommand(friends);
+        getCommand("tpa").setExecutor(tpa);
+        getCommand("tpaccept").setExecutor(tpa);
+        getCommand("tpdeny").setExecutor(tpa);
         getCommand("iteminfo").setExecutor(new ItemInfoCommand());
         chests = new ChestStore(getDataFolder());
         getCommand("enderchest").setExecutor(new EnderChestCommand());
@@ -106,6 +119,14 @@ public class FUtilities extends JavaPlugin {
             chat = Chats.get();
         } catch (RuntimeException e) {
             consoleLogger.sendMessage("/prefs indisponível: " + e.getMessage(), EMessageTypeEnum.ERROR);
+        }
+
+        if (getServer().getPluginManager().getPlugin("fFriends") != null) {
+            try {
+                friends = Friends.get();
+            } catch (RuntimeException e) {
+                consoleLogger.sendMessage("Tp automático entre amigos indisponível: " + e.getMessage(), EMessageTypeEnum.ERROR);
+            }
         }
 
         try {

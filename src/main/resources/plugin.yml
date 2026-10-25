@@ -4,7 +4,7 @@ description: FUtilities server utilities
 version: 1.0
 api-version: '1.21'
 depend: [fAPI]
-softdepend: [fChat, fPermissions]
+softdepend: [fChat, fPermissions, fFriends]
 commands:
   tp:
     description: Teleport to a specific player
@@ -63,6 +63,23 @@ commands:
     usage: /iteminfo
     aliases: [mat]
     permission: futilities.iteminfo
+  tpa:
+    description: Pede para te teleportares para um jogador
+    usage: /tpa <jogador>
+  tpaccept:
+    description: Aceita um pedido de teleporte
+    usage: /tpaccept [jogador]
+  tpdeny:
+    description: Recusa um pedido de teleporte
+    usage: /tpdeny [jogador]
+  tell:
+    description: Envia uma mensagem privada
+    usage: /tell <jogador> <mensagem>
+    aliases: [msg, w, m]
+  r:
+    description: Responde à última mensagem privada
+    usage: /r <mensagem>
+    aliases: [reply]
   arena:
     description: Teleporta para uma arena
     usage: /arena <nome>
