@@ -3,27 +3,34 @@ package pt.flawless.fUtilities.menus;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import pt.flawless.fUtilities.managers.VariablesManager;
+import pt.flawless.fUtilities.FUtilities;
 import pt.flawless.fapi.enums.FInventorySize;
 import pt.flawless.fapi.inventory.FInventory;
 import pt.flawless.fapi.items.FItemStack;
 import pt.flawless.fapi.menus.IBaseMenu;
 
-public class CommandsMenu extends VariablesManager implements IBaseMenu {
+public class CommandsMenu implements IBaseMenu {
+    /** Texto do config em Menus.Comandos.(path), com & convertido em §. */
+    public static String text(String path) {
+        return FUtilities.getMainPlugin().getConfig().getString("Menus.Comandos." + path, "").replace("&", "§");
+    }
+
     @Override
     public void loadMenu(Player player) {
-        FInventory fInventory = new FInventory(FInventorySize.SIZE_36, titulo);
-        FItemStack fly = new FItemStack(Material.FEATHER, 1).setDisplayName(nameFly).addLoreLine(loreFly);
+        String nameFlyStateOn = text("Itens.FlyState.Name_On");
+        String nameFlyStateOff = text("Itens.FlyState.Name_Off");
+        FInventory fInventory = new FInventory(FInventorySize.SIZE_36, text("Titulo"));
+        FItemStack fly = new FItemStack(Material.FEATHER, 1).setDisplayName(text("Itens.Fly.Name")).addLoreLine(text("Itens.Fly.Lore"));
         FItemStack flyState = new FItemStack(Material.RED_STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOff);
-        FItemStack rain = new FItemStack(Material.WATER_BUCKET, 1).setDisplayName(nameRain).addLoreLine(loreRain);
+        FItemStack rain = new FItemStack(Material.WATER_BUCKET, 1).setDisplayName(text("Itens.Rain.Name")).addLoreLine(text("Itens.Rain.Lore"));
         FItemStack rainState = new FItemStack(Material.RED_STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOff);
-        FItemStack clearChat = new FItemStack(Material.PAPER, 1).setDisplayName(nameChat).addLoreLine(loreChat);
-        FItemStack heal = new FItemStack(Material.GOLDEN_CARROT, 1).setDisplayName(nameHeal).addLoreLine(loreHeal);
+        FItemStack clearChat = new FItemStack(Material.PAPER, 1).setDisplayName(text("Itens.Chat.Name")).addLoreLine(text("Itens.Chat.Lore"));
+        FItemStack heal = new FItemStack(Material.GOLDEN_CARROT, 1).setDisplayName(text("Itens.Heal.Name")).addLoreLine(text("Itens.Heal.Lore"));
         FItemStack day = new FItemStack(Material.TORCH, 1).setDisplayName("§2Dia").addLoreLine("§7Clica para colocar de dia.");
         FItemStack night = new FItemStack(Material.COAL, 1).setDisplayName("§5Noite").addLoreLine("§7Clica para colocar de noite.");
         FItemStack gameMode;
 
-        FItemStack filler = new FItemStack(Material.BLACK_STAINED_GLASS_PANE, 1).setDisplayName(nameFiller);
+        FItemStack filler = new FItemStack(Material.BLACK_STAINED_GLASS_PANE, 1).setDisplayName(text("Itens.Filler.Name"));
 
         if (player.getWorld().hasStorm()) {
             rainState = new FItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1).setDisplayName(nameFlyStateOn);

@@ -4,38 +4,51 @@ description: FUtilities server utilities
 version: 1.0
 api-version: '1.21'
 depend: [fAPI]
-softdepend: [fChat, fPermissions, fFriends]
+softdepend: [fPermissions, fFriends]
 commands:
   tp:
     description: Teleport to a specific player
+    permission: futilities.tp
   tphere:
     description: Teleport a player to you
+    permission: futilities.tphere
   vida:
     description: Regenerate player HP
+    permission: futilities.vida
   invsee:
     description: Watch a player's inventory
+    permission: futilities.invsee
   heal:
     description: Regenerate player's hp and hungry
+    permission: futilities.heal
   feed:
     description: Regenerate player's hungry
+    permission: futilities.feed
   clearchat:
     description: Clear all players chat
+    permission: futilities.clearchat
   fly:
     description: Change flight mode
+    permission: futilities.fly
   gamemode:
     description: Change player's gamemode
+    permission: futilities.gamemode
     aliases:
       - gm
   comandos:
     description: Open a menu to quickly call some commands
+    permission: futilities.comandos
     aliases:
       - cmds
   day:
     description: Set day time to current world
+    permission: futilities.day
   night:
     description: Set night time to current world
+    permission: futilities.night
   clear:
     description: Clear own or other player's inventory
+    permission: futilities.clear
   repair:
     description: Repara o item na mão ou todo o inventário
     usage: /repair [all]
@@ -48,6 +61,18 @@ commands:
     description: Teleporta todos os jogadores para ti ou para um jogador
     usage: /tpall [jogador]
     permission: futilities.tpall
+  summon:
+    description: Invoca uma entidade
+    usage: /summon <entidade> [x y z]
+    permission: futilities.summon
+  mobkill:
+    description: Mata os mobs à tua volta
+    usage: /mobkill <tipo|all> [raio]
+    permission: futilities.mobkill
+  estatisticas:
+    description: Mostra TPS, RAM, uptime e carga do servidor
+    usage: /estatisticas
+    permission: futilities.estatisticas
   vanish:
     description: Alterna o vanish (ficas invisível para os jogadores)
     usage: /vanish
@@ -101,9 +126,7 @@ commands:
     permission: futilities.arena.admin
   broadcast:
     description: Broadcast a message to all players
-  prefs:
-    description: Abre o menu de preferências
-    usage: /prefs
+    permission: futilities.broadcast
   warp:
     description: Teleporta para um warp
     usage: /warp <lugar>
@@ -113,10 +136,77 @@ commands:
   setwarp:
     description: Define um warp na tua posição
     usage: /setwarp <lugar> [grupo]
+    permission: futilities.warp.admin
   delwarp:
     description: Apaga um warp
     usage: /delwarp <lugar>
+    permission: futilities.warp.admin
+  craft:
+    description: Abre uma mesa de crafting
+    usage: /craft
+  lixo:
+    description: Abre um lixo onde os itens são apagados ao fechar
+    usage: /lixo
+  hat:
+    description: Coloca o item da mão na cabeça
+    usage: /hat
+    permission: futilities.hat
+  luz:
+    description: Alterna a visão noturna
+    usage: /luz
+    permission: futilities.luz
+  online:
+    description: Mostra quantos jogadores estão online
+    usage: /online
+  cores:
+    description: Mostra os códigos de cores e formatos
+    usage: /cores
+  lista:
+    description: Mostra os jogadores online num menu
+    usage: /lista
+  ping:
+    description: Mostra o ping teu ou de um jogador
+    usage: /ping [jogador]
+    permission: futilities.ping
+  freeze:
+    description: Congela ou descongela um jogador (sem argumentos, a ti)
+    usage: /freeze [jogador]
+    permission: futilities.freeze
+  top:
+    description: Teleporta para o bloco mais alto
+    usage: /top
+    permission: futilities.top
+  head:
+    description: Dá a cabeça de um jogador
+    usage: /head <cabeça> [jogador]
+    permission: futilities.head
+  sethome:
+    description: Define uma home na tua posição
+    usage: /sethome <home>
+  delhome:
+    description: Apaga uma home
+    usage: /delhome <home>
+  home:
+    description: Teleporta para uma home
+    usage: /home [home] [jogador]
+  homes:
+    description: Lista as tuas homes
+    usage: /homes [jogador]
 permissions:
+  futilities.home.others:
+    description: Ver e usar as homes de outros jogadores
+  futilities.home.unlimited:
+    description: Sem limite de homes
+  futilities.hat:
+    description: Usar /hat
+  futilities.luz:
+    description: Usar /luz
+  futilities.ping:
+    description: Usar /ping
+  futilities.top:
+    description: Usar /top
+  futilities.head:
+    description: Usar /head
   futilities.warp.admin:
     description: Criar e apagar warps
   futilities.warp.bypass:
@@ -143,3 +233,39 @@ permissions:
     description: Ver os jogadores em vanish
   futilities.tpall:
     description: Usar /tpall
+  futilities.summon:
+    description: Usar /summon
+  futilities.mobkill:
+    description: Usar /mobkill
+  futilities.estatisticas:
+    description: Usar /estatisticas
+  futilities.tp:
+    description: Usar /tp
+  futilities.tphere:
+    description: Usar /tphere
+  futilities.vida:
+    description: Usar /vida
+  futilities.invsee:
+    description: Usar /invsee
+  futilities.heal:
+    description: Usar /heal
+  futilities.feed:
+    description: Usar /feed
+  futilities.clearchat:
+    description: Usar /clearchat
+  futilities.fly:
+    description: Usar /fly
+  futilities.gamemode:
+    description: Usar /gamemode
+  futilities.day:
+    description: Usar /day
+  futilities.night:
+    description: Usar /night
+  futilities.clear:
+    description: Usar /clear
+  futilities.broadcast:
+    description: Usar /broadcast
+  futilities.freeze:
+    description: Usar /freeze
+  futilities.comandos:
+    description: Usar /comandos

@@ -9,15 +9,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import pt.flawless.fUtilities.helpers.GameModeHelper;
-import pt.flawless.fUtilities.managers.MessagesManager;
-import pt.flawless.fUtilities.managers.VariablesManager;
 import pt.flawless.fUtilities.menus.CommandsMenu;
 import pt.flawless.fapi.sounds.FSound;
 
-public class CommandsInventoryClickListener extends VariablesManager implements Listener {
+public class CommandsInventoryClickListener implements Listener {
     @EventHandler
     public void onCommandsMenuInventoryClick(InventoryClickEvent e) {
-        if (e.getView().getTitle().equalsIgnoreCase(titulo)) {
+        if (e.getView().getTitle().equalsIgnoreCase(CommandsMenu.text("Titulo"))) {
             e.setCancelled(true);
 
             Material clickedItem = e.getCurrentItem().getType();
@@ -75,10 +73,10 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
 
         if (flyState) {
             player.setAllowFlight(false);
-            player.sendMessage(flyOffMessage);
+            player.sendMessage("§cFly desativado com sucesso!");
         } else {
             player.setAllowFlight(true);
-            player.sendMessage(flyOnMessage);
+            player.sendMessage("§aFly ativado com sucesso!");
         }
 
         new CommandsMenu().loadMenu(player);
@@ -106,7 +104,7 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
                 pl.sendMessage("");
             }
 
-            pl.sendMessage(chatClearedMessage.replace("%chat_clear%", p.getName()));
+            pl.sendMessage("§aChat limpo por: §7" + p.getName());
             pl.sendMessage("");
 
         }
@@ -120,7 +118,7 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
         player.setHealth(20.0);
         player.setFoodLevel(20);
 
-        player.sendMessage(healMessage);
+        player.sendMessage("§aFome e vida regeneradas com sucesso!");
         FSound.success(player);
     }
 
@@ -162,7 +160,7 @@ public class CommandsInventoryClickListener extends VariablesManager implements 
 
         new CommandsMenu().loadMenu(player);
 
-        player.sendMessage(MessagesManager.gamemode_change.replace("%gamemode%", GameModeHelper.getGameModeLabel(player.getGameMode())));
+        player.sendMessage("§eModo de jogo alterado para §7" + GameModeHelper.getGameModeLabel(player.getGameMode()) + "§e!");
         FSound.success(player);
     }
 }

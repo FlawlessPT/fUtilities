@@ -10,33 +10,20 @@ import pt.flawless.fapi.title.FTitle;
 
 public class BroadcastCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        Player p = (Player) commandSender;
-
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
-            p.sendMessage("§cArgumentos em falta: /broadcast [mensagem]");
-            FSound.fail(p);
-
-            return false;
+            sender.sendMessage("§cUso: /broadcast <mensagem>");
+            if (sender instanceof Player p) {
+                FSound.fail(p);
+            }
+            return true;
         }
 
-        FTitle titleAlert = new FTitle(append(args));
-
+        FTitle titleAlert = new FTitle(String.join(" ", args));
         for (Player player : Bukkit.getOnlinePlayers()) {
             titleAlert.setPlayer(player);
             titleAlert.send();
         }
-
-        return false;
-    }
-
-    private String append(String[] args) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (String arg : args) {
-            stringBuilder.append(arg).append(" ");
-        }
-
-        return stringBuilder.toString();
+        return true;
     }
 }

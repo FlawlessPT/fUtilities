@@ -1,18 +1,7 @@
-##################################
-#                                #
-#     Variáveis: %chat_clear%    #
-#                                #
-##################################
-Permissoes:
-  Comandos:
-    Comandos: "comandos.use"
 Warp:
   Delay: 3
-Mensagens:
-  FlyOn: "&aFly ativado com sucesso!"
-  FlyOff: "&cFly desativado com sucesso!"
-  ChatCleared: "&aChat limpo por: &7%chat_clear%"
-  Heal: "&aFome e vida regeneradas com sucesso!"
+Homes:
+  Max: 3
 Menus:
   Comandos:
     Titulo: "&8Comandos"

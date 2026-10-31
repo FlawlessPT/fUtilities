@@ -1,6 +1,5 @@
 package pt.flawless.fUtilities.commands;
 
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -9,27 +8,18 @@ import pt.flawless.fapi.sounds.FSound;
 
 public class DayNightCommand implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (commandSender instanceof Player player) {
-            World world = player.getWorld();
-
-            if (command.getName().equalsIgnoreCase("day")) {
-                world.setStorm(false);
-                world.setTime(1000);
-                world.setFullTime(1000);
-
-                player.sendMessage("§eTempo definido para §2Dia§e.");
-                FSound.success(player);
-            } else {
-                world.setStorm(false);
-                world.setTime(16000);
-                world.setFullTime(16000);
-
-                player.sendMessage("§eTempo definido para §5Noite§e.");
-                FSound.success(player);
-            }
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player p)) {
+            sender.sendMessage("§cSó jogadores podem usar este comando.");
+            return true;
         }
-
-        return false;
+        boolean day = command.getName().equalsIgnoreCase("day");
+        int time = day ? 1000 : 16000;
+        p.getWorld().setStorm(false);
+        p.getWorld().setTime(time);
+        p.getWorld().setFullTime(time);
+        p.sendMessage(day ? "§eTempo definido para §2Dia§e." : "§eTempo definido para §5Noite§e.");
+        FSound.success(p);
+        return true;
     }
 }

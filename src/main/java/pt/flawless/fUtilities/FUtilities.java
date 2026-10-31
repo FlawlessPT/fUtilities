@@ -10,7 +10,6 @@ import pt.flawless.fUtilities.listeners.GameModeChangeListener;
 import pt.flawless.fUtilities.listeners.GodListener;
 import pt.flawless.fUtilities.listeners.PersonalChestListener;
 import pt.flawless.fUtilities.chests.ChestStore;
-import pt.flawless.fUtilities.listeners.PrefsInventoryListener;
 import pt.flawless.fUtilities.listeners.ReplaceConfirmListener;
 import pt.flawless.fUtilities.listeners.WarpMenuListener;
 import pt.flawless.fUtilities.arenas.ArenaStore;
@@ -24,15 +23,14 @@ import pt.flawless.fUtilities.commands.SetArenaCommand;
 import pt.flawless.fUtilities.listeners.ArenaMenuListener;
 import pt.flawless.fUtilities.warps.ReplaceConfirmations;
 import org.bukkit.plugin.ServicePriority;
-import pt.flawless.fapi.chat.ChatApi;
 import pt.flawless.fapi.vanish.VanishApi;
-import pt.flawless.fapi.chat.Chats;
 import pt.flawless.fapi.friends.Friends;
 import pt.flawless.fapi.friends.FriendsApi;
 import pt.flawless.fapi.enums.EMessageTypeEnum;
 import pt.flawless.fapi.logs.FConsoleLogger;
 import pt.flawless.fapi.permissions.Permissions;
 import pt.flawless.fapi.permissions.PermissionsApi;
+import pt.flawless.fUtilities.homes.HomeStore;
 import pt.flawless.fUtilities.warps.WarpStore;
 import pt.flawless.fUtilities.warps.WarpTeleporter;
 
@@ -42,7 +40,6 @@ public class FUtilities extends JavaPlugin {
     private static Plugin plugin;
     FConsoleLogger consoleLogger = new FConsoleLogger(this.getName());
 
-    private ChatApi chat;
     private FriendsApi friends;
     private PermissionsApi perms;
     private WarpTeleporter teleporter;
@@ -66,6 +63,23 @@ public class FUtilities extends JavaPlugin {
         getCommand("vanish").setExecutor(vanish);
         Bukkit.getPluginManager().registerEvents(vanish, this);
         Bukkit.getServicesManager().register(VanishApi.class, vanish, this, ServicePriority.Normal);
+        getCommand("craft").setExecutor(new CraftCommand());
+        getCommand("lixo").setExecutor(new LixoCommand());
+        getCommand("hat").setExecutor(new HatCommand());
+        getCommand("luz").setExecutor(new LuzCommand());
+        getCommand("online").setExecutor(new OnlineCommand(vanish));
+        getCommand("cores").setExecutor(new CoresCommand());
+        getCommand("lista").setExecutor(new ListaCommand(vanish));
+        Bukkit.getPluginManager().registerEvents(new pt.flawless.fUtilities.listeners.PlayerListMenuListener(vanish), this);
+        getCommand("ping").setExecutor(new PingCommand());
+        getCommand("top").setExecutor(new TopCommand());
+        pt.flawless.fUtilities.commands.FreezeCommand freeze = new pt.flawless.fUtilities.commands.FreezeCommand();
+        getCommand("freeze").setExecutor(freeze);
+        Bukkit.getPluginManager().registerEvents(freeze, this);
+        getCommand("head").setExecutor(new HeadCommand());
+        getCommand("summon").setExecutor(new SummonCommand());
+        getCommand("mobkill").setExecutor(new MobKillCommand());
+        getCommand("estatisticas").setExecutor(new EstatisticasCommand());
         TellCommand tell = new TellCommand();
         getCommand("tell").setExecutor(tell);
         getCommand("r").setExecutor(tell);
@@ -87,13 +101,17 @@ public class FUtilities extends JavaPlugin {
         getCommand("night").setExecutor(new DayNightCommand());
         getCommand("clear").setExecutor(new ClearCommand());
         getCommand("broadcast").setExecutor(new BroadcastCommand());
-        getCommand("prefs").setExecutor(new PrefsCommand(chat));
 
         warps = new WarpStore(new File(getDataFolder(), "warps.yml"));
         arenas = new ArenaStore(new File(getDataFolder(), "arenas.yml"));
         getCommand("arena").setExecutor(new ArenaCommand(arenas));
         getCommand("arenas").setExecutor(new ArenasCommand(arenas));
         getCommand("setarena").setExecutor(new SetArenaCommand(arenas));
+        HomeStore homes = new HomeStore(new File(getDataFolder(), "homes.yml"));
+        getCommand("sethome").setExecutor(new SetHomeCommand(this, homes));
+        getCommand("delhome").setExecutor(new DelHomeCommand(homes));
+        getCommand("home").setExecutor(new HomeCommand(homes));
+        getCommand("homes").setExecutor(new HomesCommand(homes));
         teleporter = new WarpTeleporter(this, warps, perms);
         getCommand("warp").setExecutor(new WarpCommand(teleporter, warps));
         getCommand("setwarp").setExecutor(new SetWarpCommand(warps, confirmations));
@@ -104,8 +122,8 @@ public class FUtilities extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new CommandsInventoryClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new GameModeChangeListener(), this);
         Bukkit.getPluginManager().registerEvents(god, this);
+        Bukkit.getPluginManager().registerEvents(new pt.flawless.fUtilities.listeners.LixoListener(), this);
         Bukkit.getPluginManager().registerEvents(new PersonalChestListener(this, chests), this);
-        Bukkit.getPluginManager().registerEvents(new PrefsInventoryListener(this), this);
         Bukkit.getPluginManager().registerEvents(new WarpMenuListener(teleporter), this);
         Bukkit.getPluginManager().registerEvents(new ArenaMenuListener(arenas), this);
         Bukkit.getPluginManager().registerEvents(teleporter, this);
@@ -123,12 +141,6 @@ public class FUtilities extends JavaPlugin {
         saveDefaultConfig();
 
         plugin = this;
-
-        try {
-            chat = Chats.get();
-        } catch (RuntimeException e) {
-            consoleLogger.sendMessage("/prefs indisponível: " + e.getMessage(), EMessageTypeEnum.ERROR);
-        }
 
         if (getServer().getPluginManager().getPlugin("fFriends") != null) {
             try {

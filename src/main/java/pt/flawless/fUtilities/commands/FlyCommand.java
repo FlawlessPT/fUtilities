@@ -5,44 +5,39 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import pt.flawless.fUtilities.managers.MessagesManager;
 import pt.flawless.fapi.sounds.FSound;
 
 public class FlyCommand implements CommandExecutor {
-
+    @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Player p = (Player) sender;
-
+        if (!(sender instanceof Player p)) {
+            sender.sendMessage("§cSó jogadores podem usar este comando.");
+            return true;
+        }
+        if (args.length > 1) {
+            p.sendMessage("§cUso: /fly [jogador]");
+            FSound.fail(p);
+            return true;
+        }
         if (args.length == 0) {
-            if (!p.getAllowFlight()) {
-                p.setAllowFlight(true);
-                p.sendMessage(MessagesManager.flyOn);
-                FSound.success(p);
-            } else {
-                p.setAllowFlight(false);
-                p.sendMessage(MessagesManager.flyOff);
-                FSound.success(p);
-            }
+            boolean on = !p.getAllowFlight();
+            p.setAllowFlight(on);
+            p.sendMessage(on ? "§eModo de voo §7Ativado§e!" : "§cModo de voo §7Desativado§c!");
+            FSound.success(p);
+            return true;
         }
-
-        if (args.length == 1) {
-            Player target = Bukkit.getServer().getPlayer(args[0]);
-
-            if (target == null) {
-                p.sendMessage(MessagesManager.jogadorOff);
-                FSound.fail(p);
-            } else {
-                if (!target.getAllowFlight()) {
-                    target.setAllowFlight(true);
-                    p.sendMessage("§eModo de voo §7ativado §epara §7" + target.getName() + "§e.");
-                    FSound.success(p);
-                } else {
-                    target.setAllowFlight(false);
-                    p.sendMessage("§cModo de voo §7desativado §cpara §7" + target.getName() + "§c.");
-                    FSound.success(p);
-                }
-            }
+        Player target = Bukkit.getPlayer(args[0]);
+        if (target == null) {
+            p.sendMessage("§cJogador não encontrado.");
+            FSound.fail(p);
+            return true;
         }
-        return false;
+        boolean on = !target.getAllowFlight();
+        target.setAllowFlight(on);
+        p.sendMessage(on
+                ? "§eModo de voo §7ativado §epara §7" + target.getName() + "§e."
+                : "§cModo de voo §7desativado §cpara §7" + target.getName() + "§c.");
+        FSound.success(p);
+        return true;
     }
 }
